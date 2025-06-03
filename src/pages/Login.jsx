@@ -111,7 +111,15 @@ export default function Login() {
         navigate("/produk");
       }
     } catch (error) {
-      alert("Login gagal: " + (error.response?.data?.message || error.message));
+      // Tangani respons dari rate limiting dan brute force protection
+      if (error.response && error.response.status === 429) {
+        // Rate limit atau brute force protection
+        alert("Peringatan keamanan: " + error.response.data.message);
+      } else {
+        alert(
+          "Login gagal: " + (error.response?.data?.message || error.message)
+        );
+      }
     }
   };
 
