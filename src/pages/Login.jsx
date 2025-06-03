@@ -1,6 +1,7 @@
 import { useState } from "react";
 import API from "../services/api";
 import { useNavigate } from "react-router-dom";
+import { FaLeaf } from "react-icons/fa"; // ikon daun untuk tema pertanian
 
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -14,11 +15,9 @@ export default function Login() {
     e.preventDefault();
     try {
       const res = await API.post("/users/login", form);
-      // Simpan data user di localStorage
       localStorage.setItem("user", JSON.stringify(res.data.user));
       alert("Login berhasil: " + res.data.user.nama);
 
-      // Arahkan ke dashboard sesuai role
       const { role } = res.data.user;
       if (role === "ADMIN") {
         navigate("/dashboard-admin");
@@ -35,34 +34,47 @@ export default function Login() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 border rounded shadow">
-      <h2 className="text-2xl font-bold mb-4">Login</h2>
-      <form onSubmit={handleSubmit} className="space-y-3">
-        <input
-          type="email"
-          name="email"
-          value={form.email}
-          onChange={handleChange}
-          placeholder="Email"
-          className="w-full p-2 border rounded"
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          value={form.password}
-          onChange={handleChange}
-          placeholder="Password"
-          className="w-full p-2 border rounded"
-          required
-        />
-        <button
-          type="submit"
-          className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700"
-        >
-          Login
-        </button>
-      </form>
+    <div className="min-h-screen bg-gradient-to-br from-green-100 to-green-300 flex items-center justify-center px-4">
+      <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full relative">
+        <div className="flex justify-center mb-6">
+          <FaLeaf className="text-green-600 text-5xl" />
+        </div>
+        <h2 className="text-3xl font-extrabold text-green-800 mb-6 text-center">
+          Selamat Datang di AgriConnect
+        </h2>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <input
+            type="email"
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            placeholder="Email"
+            className="w-full px-4 py-3 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            value={form.password}
+            onChange={handleChange}
+            placeholder="Password"
+            className="w-full px-4 py-3 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+            required
+          />
+          <button
+            type="submit"
+            className="w-full bg-green-600 text-white font-semibold py-3 rounded-lg hover:bg-green-700 transition duration-300"
+          >
+            Masuk
+          </button>
+        </form>
+        <p className="mt-6 text-center text-green-700">
+          Belum punya akun?{" "}
+          <a href="/register" className="underline hover:text-green-900">
+            Daftar di sini
+          </a>
+        </p>
+      </div>
     </div>
   );
 }

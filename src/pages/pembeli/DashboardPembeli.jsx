@@ -9,7 +9,6 @@ export default function DashboardPembeli() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Cek autentikasi dan role
     const userData = localStorage.getItem("user");
     if (!userData) {
       navigate("/login");
@@ -24,7 +23,6 @@ export default function DashboardPembeli() {
 
     setUser(userObj);
 
-    // Ambil data transaksi pembeli
     const fetchData = async () => {
       try {
         const transactionsRes = await API.get(
@@ -42,74 +40,86 @@ export default function DashboardPembeli() {
   }, [navigate]);
 
   if (loading) {
-    return <div className="text-center p-10">Loading...</div>;
+    return <div className="text-center p-10 text-green-700 font-semibold">Loading...</div>;
   }
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold text-green-800 mb-6">
+    <div className="max-w-5xl mx-auto p-6">
+      <h1 className="text-3xl font-bold text-green-900 mb-8 text-center">
         Dashboard Pembeli
       </h1>
-      <p className="mb-6">Selamat datang, {user?.nama}!</p>
+      <p className="text-center text-green-700 mb-10 text-lg">
+        Selamat datang, <span className="font-semibold">{user?.nama}</span>!
+      </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-2">Total Pembelian</h2>
-          <p className="text-3xl font-bold text-green-600">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-10">
+        <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
+          <div className="text-green-600 text-5xl font-extrabold mb-2">
             {transactions.length}
-          </p>
+          </div>
+          <div className="text-gray-700 font-medium">Total Pembelian</div>
         </div>
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-2">Status Pesanan Aktif</h2>
-          <p className="text-3xl font-bold text-green-600">
+        <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
+          <div className="text-green-600 text-5xl font-extrabold mb-2">
             {
               transactions.filter(
                 (t) => t.status !== "SELESAI" && t.status !== "DIBATALKAN"
               ).length
             }
-          </p>
+          </div>
+          <div className="text-gray-700 font-medium">Pesanan Aktif</div>
         </div>
       </div>
 
-      <div className="flex justify-end mb-4">
+      <div className="flex justify-center mb-12">
         <Link
           to="/produk"
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+          className="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg transition"
         >
           Belanja Lagi
         </Link>
       </div>
 
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold mb-4">Riwayat Pembelian</h2>
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <h2 className="text-xl font-semibold text-green-800 mb-4 text-center">
+          Riwayat Pembelian
+        </h2>
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white">
+          <table className="min-w-full text-left border-collapse">
             <thead>
-              <tr>
-                <th className="py-2 px-4 border-b">Tanggal</th>
-                <th className="py-2 px-4 border-b">Total</th>
-                <th className="py-2 px-4 border-b">Status</th>
-                <th className="py-2 px-4 border-b">Alamat</th>
-                <th className="py-2 px-4 border-b">Aksi</th>
+              <tr className="bg-green-100 text-green-900">
+                <th className="py-3 px-5 border-b font-semibold">Tanggal</th>
+                <th className="py-3 px-5 border-b font-semibold">Total</th>
+                <th className="py-3 px-5 border-b font-semibold">Status</th>
+                <th className="py-3 px-5 border-b font-semibold">Alamat</th>
+                <th className="py-3 px-5 border-b font-semibold">Aksi</th>
               </tr>
             </thead>
             <tbody>
+              {transactions.length === 0 && (
+                <tr>
+                  <td colSpan={5} className="text-center py-6 text-gray-500">
+                    Belum ada transaksi
+                  </td>
+                </tr>
+              )}
               {transactions.map((transaction) => (
-                <tr key={transaction.id}>
-                  <td className="py-2 px-4 border-b">
+                <tr
+                  key={transaction.id}
+                  className="hover:bg-green-50 transition-colors"
+                >
+                  <td className="py-3 px-5 border-b">
                     {new Date(transaction.tanggal).toLocaleDateString()}
                   </td>
-                  <td className="py-2 px-4 border-b">
-                    Rp {transaction.total_harga}
-                  </td>
-                  <td className="py-2 px-4 border-b">{transaction.status}</td>
-                  <td className="py-2 px-4 border-b">
+                  <td className="py-3 px-5 border-b">Rp {transaction.total_harga.toLocaleString("id-ID")}</td>
+                  <td className="py-3 px-5 border-b capitalize">{transaction.status.toLowerCase()}</td>
+                  <td className="py-3 px-5 border-b truncate max-w-xs" title={transaction.alamat_pengiriman}>
                     {transaction.alamat_pengiriman}
                   </td>
-                  <td className="py-2 px-4 border-b">
+                  <td className="py-3 px-5 border-b">
                     <Link
                       to={`/detail-transaksi/${transaction.id}`}
-                      className="text-blue-500 hover:underline"
+                      className="text-green-600 hover:underline font-medium"
                     >
                       Detail
                     </Link>
