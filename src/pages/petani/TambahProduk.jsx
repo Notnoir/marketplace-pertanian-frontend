@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import API from "../services/api";
+import API from "../../services/api";
 
 export default function TambahProduk() {
   const [form, setForm] = useState({

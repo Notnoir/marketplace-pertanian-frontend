@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import API from "../services/api";
+import API from "../../services/api";
 
 export default function DaftarPesanan() {
   const [transactions, setTransactions] = useState([]);

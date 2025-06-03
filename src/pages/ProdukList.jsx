@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import API from "../services/api";
 
 export default function ProdukList() {
   const [produk, setProduk] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     API.get("/produk")
@@ -33,35 +35,39 @@ export default function ProdukList() {
           key={p.id}
           className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col hover:shadow-2xl transition-shadow duration-300"
         >
-          {p.foto_url ? (
-            <img
-              src={p.foto_url}
-              alt={p.nama_produk}
-              className="h-48 w-full object-cover"
-            />
-          ) : (
-            <div className="h-48 w-full bg-gray-200 flex items-center justify-center text-gray-400">
-              No Image
+          <Link to={`/produk/${p.id}`}>
+            {p.foto_url ? (
+              <img
+                src={p.foto_url}
+                alt={p.nama_produk}
+                className="h-48 w-full object-cover"
+              />
+            ) : (
+              <div className="h-48 w-full bg-gray-200 flex items-center justify-center text-gray-400">
+                No Image
+              </div>
+            )}
+            <div className="p-4 flex flex-col flex-grow">
+              <h3 className="text-lg font-semibold text-green-800 mb-1">
+                {p.nama_produk}
+              </h3>
+              <p className="text-sm text-gray-600 flex-grow">{p.deskripsi}</p>
+              <div className="mt-3 flex justify-between items-center">
+                <p className="font-bold text-green-700 text-lg">
+                  Rp {Number(p.harga).toLocaleString()}
+                </p>
+                <p className="text-sm text-gray-500">
+                  Stok: {p.stok} {p.satuan}
+                </p>
+              </div>
             </div>
-          )}
-          <div className="p-4 flex flex-col flex-grow">
-            <h3 className="text-lg font-semibold text-green-800 mb-1">
-              {p.nama_produk}
-            </h3>
-            <p className="text-sm text-gray-600 flex-grow">{p.deskripsi}</p>
-            <div className="mt-3 flex justify-between items-center">
-              <p className="font-bold text-green-700 text-lg">
-                Rp {Number(p.harga).toLocaleString()}
-              </p>
-              <p className="text-sm text-gray-500">
-                Stok: {p.stok} {p.satuan}
-              </p>
-            </div>
+          </Link>
+          <div className="px-4 pb-4">
             <button
-              className="mt-4 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-semibold transition"
-              onClick={() => alert(`Beli produk: ${p.nama_produk}`)}
+              className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-semibold transition"
+              onClick={() => navigate(`/produk/${p.id}`)}
             >
-              Beli
+              Lihat Detail
             </button>
           </div>
         </div>

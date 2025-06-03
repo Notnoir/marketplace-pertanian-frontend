@@ -84,12 +84,20 @@ export default function Navbar() {
                 )}
 
                 {user.role === "PEMBELI" && (
-                  <Link
-                    to="/dashboard-pembeli"
-                    className="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-green-800"
-                  >
-                    Dashboard Pembeli
-                  </Link>
+                  <>
+                    <Link
+                      to="/dashboard-pembeli"
+                      className="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-green-800"
+                    >
+                      Dashboard Pembeli
+                    </Link>
+                    <Link
+                      to="/keranjang"
+                      className="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-green-800"
+                    >
+                      Keranjang
+                    </Link>
+                  </>
                 )}
 
                 <button

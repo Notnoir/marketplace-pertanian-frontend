@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import API from "../services/api";
+import API from "../../services/api";
 
 export default function LaporanPenjualan() {
   const [transactions, setTransactions] = useState([]);

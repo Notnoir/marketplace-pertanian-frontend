@@ -11,17 +11,22 @@ import Login from "./pages/Login";
 import ProdukList from "./pages/ProdukList";
 import Navbar from "./components/Navbar";
 import AdminSidebar from "./components/AdminSidebar";
-import TambahProduk from "./pages/TambahProduk";
-import DashboardAdmin from "./pages/DashboardAdmin";
-import DashboardPetani from "./pages/DashboardPetani";
-import DashboardPembeli from "./pages/DashboardPembeli";
+import TambahProduk from "./pages/petani/TambahProduk";
+import DashboardAdmin from "./pages/admin/DashboardAdmin";
+import DashboardPetani from "./pages/petani/DashboardPetani";
+import DashboardPembeli from "./pages/pembeli/DashboardPembeli";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminProducts from "./pages/admin/AdminProducts";
 import AdminTransactions from "./pages/admin/AdminTransactions";
-import EditProduk from "./pages/EditProduk";
-import DetailPesanan from "./pages/DetailPesanan";
-import DaftarPesanan from "./pages/DaftarPesanan";
-import LaporanPenjualan from "./pages/LaporanPenjualan";
+import EditProduk from "./pages/petani/EditProduk";
+import DetailPesanan from "./pages/petani/DetailPesanan";
+import DaftarPesanan from "./pages/petani/DaftarPesanan";
+import LaporanPenjualan from "./pages/petani/LaporanPenjualan";
+import PetaniSidebar from "./components/PetaniSidebar";
+import DetailProduk from "./pages/pembeli/DetailProduk";
+import Keranjang from "./pages/pembeli/Keranjang";
+import DetailTransaksi from "./pages/pembeli/DetailTransaksi";
+import PembeliSidebar from "./components/PembeliSidebar";
 
 // Komponen wrapper untuk mendeteksi rute dan menampilkan layout yang sesuai
 function AppLayout() {
@@ -45,13 +50,55 @@ function AppLayout() {
     return adminRoutes.some((route) => location.pathname.startsWith(route));
   };
 
+  const isPetaniRoute = () => {
+    const petaniRoutes = [
+      "/dashboard-petani",
+      "/tambah-produk",
+      "/edit-produk",
+      "/daftar-pesanan",
+      "/pesanan",
+      "/laporan-penjualan",
+    ];
+    return petaniRoutes.some((route) => location.pathname.startsWith(route));
+  };
+
+  const isPembeliRoute = () => {
+    const pembeliRoutes = [
+      "/dashboard-pembeli",
+      "/keranjang",
+      "/detail-transaksi",
+      "/produk",
+    ];
+    return pembeliRoutes.some((route) => location.pathname.startsWith(route));
+  };
+
   const isAdmin = user && user.role === "ADMIN";
-  const showSidebar = isAdmin && isAdminRoute();
+  const showAdminSidebar = isAdmin && isAdminRoute();
+
+  const isPetani = user && user.role === "PETANI";
+  const showPetaniSidebar = isPetani && isPetaniRoute();
+
+  const isPembeli = user && user.role === "PEMBELI";
+  const showPembeliSidebar = isPembeli && isPembeliRoute();
 
   return (
     <>
-      {showSidebar ? <AdminSidebar /> : <Navbar />}
-      <div className={showSidebar ? "pl-64" : ""}>
+      {showAdminSidebar ? (
+        <AdminSidebar />
+      ) : showPetaniSidebar ? (
+        <PetaniSidebar />
+      ) : showPembeliSidebar ? (
+        <PembeliSidebar />
+      ) : (
+        <Navbar />
+      )}
+      <div
+        className={
+          showAdminSidebar || showPetaniSidebar || showPembeliSidebar
+            ? "pl-64"
+            : ""
+        }
+      >
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/produk" element={<ProdukList />} />
@@ -70,6 +117,11 @@ function AppLayout() {
           <Route path="/pesanan/:id" element={<DetailPesanan />} />
           <Route path="/daftar-pesanan" element={<DaftarPesanan />} />
           <Route path="/laporan-penjualan" element={<LaporanPenjualan />} />
+
+          {/* Rute baru untuk fitur pembeli */}
+          <Route path="/produk/:id" element={<DetailProduk />} />
+          <Route path="/keranjang" element={<Keranjang />} />
+          <Route path="/detail-transaksi/:id" element={<DetailTransaksi />} />
         </Routes>
       </div>
     </>

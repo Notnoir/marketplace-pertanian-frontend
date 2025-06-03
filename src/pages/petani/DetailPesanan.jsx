@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import API from "../services/api";
+import API from "../../services/api";
 
 export default function DetailPesanan() {
   const { id } = useParams();
