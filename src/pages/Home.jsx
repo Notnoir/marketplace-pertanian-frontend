@@ -15,61 +15,148 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section dengan Background Image */}
-      <div className="relative bg-green-700">
-        <div className="absolute inset-0 overflow-hidden">
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section dengan Design Modern */}
+      <div className="relative bg-emerald-600 overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-emerald-700 opacity-20"></div>
           <img
             src="https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?auto=format&fit=crop&w=1500&q=80"
             alt="Pertanian"
-            className="w-full h-full object-cover opacity-20"
+            className="w-full h-full object-cover opacity-30"
           />
+          {/* Decorative circles */}
+          <div className="absolute top-20 right-20 w-32 h-32 bg-emerald-400 rounded-full opacity-20"></div>
+          <div className="absolute bottom-32 left-16 w-24 h-24 bg-emerald-300 rounded-full opacity-30"></div>
+          <div className="absolute top-1/2 right-1/3 w-16 h-16 bg-white rounded-full opacity-10"></div>
         </div>
-        <div className="relative max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8 flex flex-col items-center text-center">
-          <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-6 leading-tight">
-            Marketplace Produk <br /> Pertanian Lokal
-          </h1>
-          <p className="text-xl text-green-100 mb-10 max-w-3xl">
-            Temukan produk segar dan berkualitas langsung dari petani lokal.
-            Dukung pertanian berkelanjutan dan nikmati hasil bumi terbaik di
-            rumah Anda.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link
-              to="/produk"
-              className="px-8 py-4 bg-white text-green-700 rounded-lg font-bold shadow-lg hover:bg-green-50 transition transform hover:-translate-y-1 text-lg"
-            >
-              Lihat Produk
-            </Link>
-            <Link
-              to="/register"
-              className="px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-green-700 rounded-lg font-bold transition transform hover:-translate-y-1 text-lg"
-            >
-              Daftar Sekarang
-            </Link>
+
+        <div className="relative max-w-7xl mx-auto px-4 py-32 sm:px-6 lg:px-8">
+          <div className="text-center">
+            {/* Badge */}
+            <div className="inline-flex items-center px-4 py-2 bg-emerald-500 bg-opacity-20 backdrop-blur-sm rounded-full border border-emerald-400 border-opacity-30 mb-8">
+              <span className="w-2 h-2 bg-emerald-300 rounded-full mr-2 animate-pulse"></span>
+              <span className="text-emerald-100 text-sm font-medium">
+                Platform Terpercaya #1
+              </span>
+            </div>
+
+            <h1 className="text-5xl md:text-7xl font-black text-white mb-8 leading-tight tracking-tight">
+              Marketplace
+              <br />
+              <span className="text-emerald-200">Pertanian Lokal</span>
+            </h1>
+
+            <p className="text-xl md:text-2xl text-emerald-50 mb-12 max-w-4xl mx-auto leading-relaxed">
+              Temukan produk segar dan berkualitas langsung dari petani lokal.
+              Dukung pertanian berkelanjutan dan nikmati hasil bumi terbaik.
+            </p>
+
+            <div className="flex flex-col sm:flex-row justify-center gap-6">
+              <Link
+                to="/produk"
+                className="group px-10 py-5 bg-white text-emerald-600 rounded-2xl font-bold shadow-2xl hover:shadow-3xl transform hover:-translate-y-2 transition-all duration-300 text-lg border-4 border-transparent hover:border-emerald-200"
+              >
+                <span className="flex items-center justify-center">
+                  Jelajahi Produk
+                  <svg
+                    className="w-6 h-6 ml-2 group-hover:translate-x-1 transition-transform"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 7l5 5m0 0l-5 5m5-5H6"
+                    />
+                  </svg>
+                </span>
+              </Link>
+              <Link
+                to="/register"
+                className="group px-10 py-5 bg-transparent border-4 border-white text-white hover:bg-white hover:text-emerald-600 rounded-2xl font-bold transition-all duration-300 transform hover:-translate-y-2 text-lg"
+              >
+                <span className="flex items-center justify-center">
+                  <svg
+                    className="w-6 h-6 mr-2 group-hover:scale-110 transition-transform"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                    />
+                  </svg>
+                  Daftar Sekarang
+                </span>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Fitur Utama */}
-      <div className="py-16 bg-green-50">
+      {/* Stats Section */}
+      <div className="bg-white py-16 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-green-800 mb-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="text-center group">
+              <div className="text-4xl font-black text-emerald-600 mb-2 group-hover:scale-110 transition-transform">
+                1000+
+              </div>
+              <div className="text-gray-600 font-medium">Petani Terdaftar</div>
+            </div>
+            <div className="text-center group">
+              <div className="text-4xl font-black text-emerald-600 mb-2 group-hover:scale-110 transition-transform">
+                5000+
+              </div>
+              <div className="text-gray-600 font-medium">Produk Tersedia</div>
+            </div>
+            <div className="text-center group">
+              <div className="text-4xl font-black text-emerald-600 mb-2 group-hover:scale-110 transition-transform">
+                15K+
+              </div>
+              <div className="text-gray-600 font-medium">Pelanggan Puas</div>
+            </div>
+            <div className="text-center group">
+              <div className="text-4xl font-black text-emerald-600 mb-2 group-hover:scale-110 transition-transform">
+                50+
+              </div>
+              <div className="text-gray-600 font-medium">Kota Terjangkau</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Features Section dengan Card Modern */}
+      <div className="py-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center px-4 py-2 bg-emerald-100 rounded-full mb-6">
+              <span className="text-emerald-600 text-sm font-semibold">
+                Keunggulan Kami
+              </span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6">
               Mengapa Memilih Kami?
             </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Platform kami menghubungkan petani lokal langsung dengan pembeli,
-              menghilangkan perantara dan memberikan manfaat untuk semua pihak.
+              menciptakan ekosistem yang menguntungkan semua pihak.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6 mx-auto">
+            <div className="group bg-white p-10 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 border border-gray-100">
+              <div className="w-20 h-20 bg-emerald-100 rounded-2xl flex items-center justify-center mb-8 mx-auto group-hover:bg-emerald-200 transition-all duration-300 group-hover:scale-110">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-green-600"
+                  className="h-10 w-10 text-emerald-600"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -82,20 +169,20 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-green-800 mb-3 text-center">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center group-hover:text-emerald-600 transition-colors">
                 Produk Segar & Berkualitas
               </h3>
-              <p className="text-gray-600 text-center">
+              <p className="text-gray-600 text-center leading-relaxed">
                 Produk langsung dari petani lokal, dipanen saat sudah matang
-                untuk menjamin kesegaran dan kualitas terbaik.
+                untuk menjamin kesegaran dan kualitas terbaik setiap hari.
               </p>
             </div>
 
-            <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6 mx-auto">
+            <div className="group bg-white p-10 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 border border-gray-100">
+              <div className="w-20 h-20 bg-blue-100 rounded-2xl flex items-center justify-center mb-8 mx-auto group-hover:bg-blue-200 transition-all duration-300 group-hover:scale-110">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-green-600"
+                  className="h-10 w-10 text-blue-600"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -108,20 +195,20 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-green-800 mb-3 text-center">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center group-hover:text-blue-600 transition-colors">
                 Harga Terjangkau
               </h3>
-              <p className="text-gray-600 text-center">
+              <p className="text-gray-600 text-center leading-relaxed">
                 Tanpa perantara, kami menawarkan harga yang lebih terjangkau
-                untuk pembeli dan keuntungan lebih untuk petani.
+                untuk pembeli dan keuntungan maksimal untuk petani.
               </p>
             </div>
 
-            <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6 mx-auto">
+            <div className="group bg-white p-10 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 border border-gray-100">
+              <div className="w-20 h-20 bg-orange-100 rounded-2xl flex items-center justify-center mb-8 mx-auto group-hover:bg-orange-200 transition-all duration-300 group-hover:scale-110">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-green-600"
+                  className="h-10 w-10 text-orange-600"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -130,73 +217,111 @@ export default function Home() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"
+                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-green-800 mb-3 text-center">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center group-hover:text-orange-600 transition-colors">
                 Dukung Petani Lokal
               </h3>
-              <p className="text-gray-600 text-center">
+              <p className="text-gray-600 text-center leading-relaxed">
                 Setiap pembelian Anda secara langsung mendukung petani lokal dan
-                membantu perekonomian daerah.
+                membantu mengembangkan perekonomian daerah.
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Produk Unggulan */}
-      <div className="py-16 bg-white">
+      {/* Featured Products dengan Design Menarik */}
+      <div className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-green-800 mb-4">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center px-4 py-2 bg-emerald-100 rounded-full mb-6">
+              <span className="text-emerald-600 text-sm font-semibold">
+                Pilihan Terbaik
+              </span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6">
               Produk Unggulan
             </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Temukan produk pertanian segar dan berkualitas dari petani lokal
-              terbaik.
+              terbaik yang telah dipilih khusus untuk Anda.
             </p>
           </div>
 
           {loading ? (
-            <p className="text-center text-gray-600">
-              Memuat produk unggulan...
-            </p>
+            <div className="flex justify-center items-center py-20">
+              <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-emerald-600"></div>
+            </div>
           ) : featuredProducts.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {featuredProducts.map((product) => (
+              {featuredProducts.map((product, index) => (
                 <div
                   key={product.id}
-                  className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition"
+                  className="group bg-white rounded-3xl shadow-lg overflow-hidden border border-gray-100"
+                  style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  {product.foto_url ? (
-                    <img
-                      src={product.foto_url}
-                      alt={product.nama_produk}
-                      className="h-48 w-full object-cover"
-                    />
-                  ) : (
-                    <div className="h-48 w-full bg-gray-200 flex items-center justify-center text-gray-400">
-                      No Image
+                  <div className="relative overflow-hidden">
+                    {product.foto_url ? (
+                      <img
+                        src={product.foto_url}
+                        alt={product.nama_produk}
+                        className="h-56 w-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                    ) : (
+                      <div className="h-56 w-full bg-gray-200 flex items-center justify-center text-gray-400 group-hover:bg-gray-300 transition-colors">
+                        <svg
+                          className="w-16 h-16"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          />
+                        </svg>
+                      </div>
+                    )}
+                    <div className="absolute top-4 right-4 bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                      Fresh
                     </div>
-                  )}
-                  <div className="p-4">
-                    <h3 className="text-lg font-semibold text-green-800 mb-1">
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-emerald-600 transition-colors">
                       {product.nama_produk}
                     </h3>
-                    <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+                    <p className="text-gray-600 mb-4 line-clamp-2 leading-relaxed">
                       {product.deskripsi}
                     </p>
                     <div className="flex justify-between items-center">
-                      <p className="font-bold text-green-700">
+                      <p className="text-2xl font-black text-emerald-600">
                         Rp {Number(product.harga).toLocaleString()}
                       </p>
                       <Link
                         to={`/produk/${product.id}`}
-                        className="text-green-600 hover:text-green-800 font-medium"
+                        className="group/link bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl font-medium transition-all transform hover:scale-105"
                       >
-                        Lihat Detail →
+                        <span className="flex items-center">
+                          Lihat
+                          <svg
+                            className="w-4 h-4 ml-1 group-hover/link:translate-x-1 transition-transform"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M9 5l7 7-7 7"
+                            />
+                          </svg>
+                        </span>
                       </Link>
                     </div>
                   </div>
@@ -204,454 +329,201 @@ export default function Home() {
               ))}
             </div>
           ) : (
-            <p className="text-center text-gray-600">
-              Tidak ada produk unggulan saat ini.
-            </p>
+            <div className="text-center py-20">
+              <svg
+                className="w-24 h-24 text-gray-300 mx-auto mb-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
+                />
+              </svg>
+              <p className="text-xl text-gray-500">
+                Tidak ada produk unggulan saat ini.
+              </p>
+            </div>
           )}
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-16">
             <Link
               to="/produk"
-              className="inline-block px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition"
+              className="inline-flex items-center px-8 py-4 bg-emerald-600 text-white rounded-2xl font-bold hover:bg-emerald-700 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
             >
               Lihat Semua Produk
+              <svg
+                className="w-6 h-6 ml-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 7l5 5m0 0l-5 5m5-5H6"
+                />
+              </svg>
             </Link>
           </div>
         </div>
       </div>
 
-      {/* Testimoni */}
-      <div className="py-16 bg-green-50">
+      {/* Testimonials dengan Design Card Modern */}
+      <div className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-green-800 mb-4">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center px-4 py-2 bg-yellow-100 rounded-full mb-6">
+              <span className="text-yellow-600 text-sm font-semibold">
+                Testimoni
+              </span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6">
               Apa Kata Mereka
             </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Pengalaman pelanggan dan petani yang telah menggunakan platform
-              kami.
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Pengalaman nyata dari pelanggan dan petani yang telah bergabung
+              dengan platform kami.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-6 rounded-xl shadow-md">
-              <div className="flex items-center mb-4">
-                <div className="h-12 w-12 rounded-full bg-green-200 flex items-center justify-center mr-4">
-                  <span className="text-green-700 font-bold">BP</span>
+            {[
+              {
+                name: "Budi Pratama",
+                role: "Pembeli",
+                avatar: "BP",
+                content:
+                  "Saya sangat senang berbelanja di sini. Produknya segar, harganya terjangkau, dan yang terpenting saya tahu bahwa saya mendukung petani lokal secara langsung.",
+                rating: 5,
+              },
+              {
+                name: "Siti Suryani",
+                role: "Petani",
+                avatar: "SS",
+                content:
+                  "Platform ini membantu saya menjangkau lebih banyak pembeli. Saya bisa menjual hasil panen dengan harga yang lebih baik dan mendapatkan pembayaran langsung tanpa menunggu lama.",
+                rating: 5,
+              },
+              {
+                name: "Andi Wijaya",
+                role: "Pembeli",
+                avatar: "AW",
+                content:
+                  "Kualitas produk di sini jauh lebih baik dibandingkan di supermarket. Saya bisa mendapatkan sayuran dan buah-buahan segar dengan harga yang masuk akal. Sangat direkomendasikan!",
+                rating: 5,
+              },
+            ].map((testimonial, index) => (
+              <div
+                key={index}
+                className="bg-white p-8 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100"
+              >
+                <div className="flex items-center mb-6">
+                  <div className="h-16 w-16 rounded-2xl bg-emerald-100 flex items-center justify-center mr-4">
+                    <span className="text-emerald-600 font-bold text-lg">
+                      {testimonial.avatar}
+                    </span>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-gray-900 text-lg">
+                      {testimonial.name}
+                    </h4>
+                    <p className="text-emerald-600 font-medium">
+                      {testimonial.role}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-semibold text-gray-800">Budi Pratama</h4>
-                  <p className="text-sm text-gray-500">Pembeli</p>
-                </div>
-              </div>
-              <p className="text-gray-600 italic">
-                "Saya sangat senang berbelanja di sini. Produknya segar,
-                harganya terjangkau, dan yang terpenting saya tahu bahwa saya
-                mendukung petani lokal secara langsung."
-              </p>
-              <div className="mt-4 flex text-yellow-400">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-              </div>
-            </div>
-
-            <div className="bg-white p-6 rounded-xl shadow-md">
-              <div className="flex items-center mb-4">
-                <div className="h-12 w-12 rounded-full bg-green-200 flex items-center justify-center mr-4">
-                  <span className="text-green-700 font-bold">SS</span>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-800">Siti Suryani</h4>
-                  <p className="text-sm text-gray-500">Petani</p>
+                <p className="text-gray-700 italic mb-6 leading-relaxed text-lg">
+                  "{testimonial.content}"
+                </p>
+                <div className="flex text-yellow-400">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <svg
+                      key={i}
+                      className="h-6 w-6"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
                 </div>
               </div>
-              <p className="text-gray-600 italic">
-                "Platform ini membantu saya menjangkau lebih banyak pembeli.
-                Saya bisa menjual hasil panen dengan harga yang lebih baik dan
-                mendapatkan pembayaran langsung tanpa menunggu lama."
-              </p>
-              <div className="mt-4 flex text-yellow-400">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-              </div>
-            </div>
-
-            <div className="bg-white p-6 rounded-xl shadow-md">
-              <div className="flex items-center mb-4">
-                <div className="h-12 w-12 rounded-full bg-green-200 flex items-center justify-center mr-4">
-                  <span className="text-green-700 font-bold">AW</span>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-800">Andi Wijaya</h4>
-                  <p className="text-sm text-gray-500">Pembeli</p>
-                </div>
-              </div>
-              <p className="text-gray-600 italic">
-                "Kualitas produk di sini jauh lebih baik dibandingkan di
-                supermarket. Saya bisa mendapatkan sayuran dan buah-buahan segar
-                dengan harga yang masuk akal. Sangat direkomendasikan!"
-              </p>
-              <div className="mt-4 flex text-yellow-400">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* Call to Action */}
-      <div className="py-16 bg-green-700 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-6">
+      {/* Call to Action dengan Design Menarik */}
+      <div className="py-24 bg-emerald-600 relative overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500 rounded-full opacity-20 -translate-y-32 translate-x-32"></div>
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-emerald-700 rounded-full opacity-20 translate-y-24 -translate-x-24"></div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="inline-flex items-center px-4 py-2 bg-emerald-500 bg-opacity-30 backdrop-blur-sm rounded-full border border-emerald-400 border-opacity-50 mb-8">
+            <span className="text-emerald-100 text-sm font-medium">
+              Bergabung Sekarang
+            </span>
+          </div>
+
+          <h2 className="text-4xl md:text-6xl font-black text-white mb-8">
             Siap Bergabung dengan Kami?
           </h2>
-          <p className="text-xl text-green-100 mb-8 max-w-3xl mx-auto">
+          <p className="text-xl md:text-2xl text-emerald-50 mb-12 max-w-4xl mx-auto leading-relaxed">
             Daftarkan diri Anda sekarang dan nikmati pengalaman berbelanja
             produk pertanian segar langsung dari petani lokal.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
+          <div className="flex flex-col sm:flex-row justify-center gap-6">
             <Link
               to="/register"
-              className="px-8 py-4 bg-white text-green-700 rounded-lg font-bold shadow-lg hover:bg-green-50 transition transform hover:-translate-y-1 text-lg"
+              className="group px-10 py-5 bg-white text-emerald-600 rounded-2xl font-bold shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-2 text-lg"
             >
-              Daftar Sekarang
+              <span className="flex items-center justify-center">
+                <svg
+                  className="w-6 h-6 mr-2 group-hover:scale-110 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                  />
+                </svg>
+                Daftar Sekarang
+              </span>
             </Link>
             <Link
               to="/produk"
-              className="px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-green-700 rounded-lg font-bold transition transform hover:-translate-y-1 text-lg"
+              className="group px-10 py-5 bg-transparent border-4 border-white text-white hover:bg-white hover:text-emerald-600 rounded-2xl font-bold transition-all duration-300 transform hover:-translate-y-2 text-lg"
             >
-              Jelajahi Produk
+              <span className="flex items-center justify-center">
+                Jelajahi Produk
+                <svg
+                  className="w-6 h-6 ml-2 group-hover:translate-x-1 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 7l5 5m0 0l-5 5m5-5H6"
+                  />
+                </svg>
+              </span>
             </Link>
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="bg-green-900 text-green-100 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="text-xl font-bold mb-4">Marketplace Pertanian</h3>
-              <p className="text-green-300 mb-4">
-                Menghubungkan petani lokal dengan pembeli secara langsung untuk
-                produk pertanian segar dan berkualitas.
-              </p>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Tautan</h4>
-              <ul className="space-y-2">
-                <li>
-                  <Link to="/" className="hover:text-white transition">
-                    Beranda
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/produk" className="hover:text-white transition">
-                    Produk
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/register" className="hover:text-white transition">
-                    Daftar
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/login" className="hover:text-white transition">
-                    Masuk
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Kategori</h4>
-              <ul className="space-y-2">
-                <li>
-                  <a href="#" className="hover:text-white transition">
-                    Sayuran
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white transition">
-                    Buah-buahan
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white transition">
-                    Biji-bijian
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white transition">
-                    Rempah-rempah
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Kontak</h4>
-              <ul className="space-y-2">
-                <li className="flex items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 mr-2"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    />
-                  </svg>
-                  <span>info@marketplacepertanian.com</span>
-                </li>
-                <li className="flex items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 mr-2"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                    />
-                  </svg>
-                  <span>+62 123 4567 890</span>
-                </li>
-              </ul>
-              <div className="mt-4 flex space-x-4">
-                <a
-                  href="#"
-                  className="text-green-300 hover:text-white transition"
-                >
-                  <svg
-                    className="h-6 w-6"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                  </svg>
-                </a>
-                <a
-                  href="#"
-                  className="text-green-300 hover:text-white transition"
-                >
-                  <svg
-                    className="h-6 w-6"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723 10.054 10.054 0 01-3.127 1.184 4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
-                  </svg>
-                </a>
-                <a
-                  href="#"
-                  className="text-green-300 hover:text-white transition"
-                >
-                  <svg
-                    className="h-6 w-6"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div className="border-t border-green-800 mt-8 pt-8 text-center text-green-400">
-            <p>
-              &copy; {new Date().getFullYear()} Marketplace Pertanian. Semua hak
-              dilindungi.
-            </p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
