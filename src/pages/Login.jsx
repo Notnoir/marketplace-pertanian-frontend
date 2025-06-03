@@ -5,14 +5,95 @@ import { FaLeaf } from "react-icons/fa"; // ikon daun untuk tema pertanian
 
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
+  const [errors, setErrors] = useState({ email: "", password: "" });
   const navigate = useNavigate();
 
+  // Fungsi untuk validasi email
+  const validateEmail = (email) => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+  };
+
+  // Fungsi untuk validasi password
+  const validatePassword = (password) => {
+    // Minimal 8 karakter
+    if (password.length < 8) {
+      return "Password harus minimal 8 karakter";
+    }
+
+    // Harus memiliki minimal 1 huruf besar
+    if (!/[A-Z]/.test(password)) {
+      return "Password harus memiliki minimal 1 huruf besar";
+    }
+
+    // Harus memiliki minimal 1 angka
+    if (!/[0-9]/.test(password)) {
+      return "Password harus memiliki minimal 1 angka";
+    }
+
+    // Harus memiliki minimal 1 simbol (.,?/#)
+    if (!/[.,?\/#!$%^&*()\-_=+{}[\]|:;"'<>]/.test(password)) {
+      return "Password harus memiliki minimal 1 simbol (.,?/#)";
+    }
+
+    return ""; // Password valid
+  };
+
+  // Fungsi untuk sanitasi input
+  const sanitizeInput = (input) => {
+    // Menghapus karakter berbahaya seperti <, >, ", ', dan script tags
+    return input
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#x27;")
+      .replace(/script/gi, "");
+  };
+
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    const sanitizedValue = sanitizeInput(value);
+
+    // Validasi input
+    let newErrors = { ...errors };
+
+    if (name === "email") {
+      if (!sanitizedValue) {
+        newErrors.email = "Email tidak boleh kosong";
+      } else if (!validateEmail(sanitizedValue)) {
+        newErrors.email = "Format email tidak valid";
+      } else {
+        newErrors.email = "";
+      }
+    }
+
+    if (name === "password") {
+      if (!sanitizedValue) {
+        newErrors.password = "Password tidak boleh kosong";
+      } else {
+        // Gunakan fungsi validatePassword untuk validasi kompleks
+        newErrors.password = validatePassword(sanitizedValue);
+      }
+    }
+
+    setErrors(newErrors);
+    setForm({ ...form, [name]: sanitizedValue });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validasi form sebelum submit
+    const passwordError = validatePassword(form.password);
+    if (errors.email || passwordError || !form.email || !form.password) {
+      // Update error state untuk password jika ada
+      if (passwordError) {
+        setErrors((prev) => ({ ...prev, password: passwordError }));
+      }
+      alert("Mohon perbaiki input yang tidak valid");
+      return;
+    }
+
     try {
       const res = await API.post("/users/login", form);
       localStorage.setItem("user", JSON.stringify(res.data.user));
@@ -44,24 +125,42 @@ export default function Login() {
           Selamat Datang di AgriConnect
         </h2>
         <form onSubmit={handleSubmit} className="space-y-5">
-          <input
-            type="email"
-            name="email"
-            value={form.email}
-            onChange={handleChange}
-            placeholder="Email"
-            className="w-full px-4 py-3 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-            required
-          />
-          <input
-            type="password"
-            name="password"
-            value={form.password}
-            onChange={handleChange}
-            placeholder="Password"
-            className="w-full px-4 py-3 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-            required
-          />
+          <div>
+            <input
+              type="email"
+              name="email"
+              value={form.email}
+              onChange={handleChange}
+              placeholder="Email"
+              className={`w-full px-4 py-3 border ${
+                errors.email ? "border-red-500" : "border-green-300"
+              } rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500`}
+              required
+            />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
+          </div>
+          <div>
+            <input
+              type="password"
+              name="password"
+              value={form.password}
+              onChange={handleChange}
+              placeholder="Password"
+              className={`w-full px-4 py-3 border ${
+                errors.password ? "border-red-500" : "border-green-300"
+              } rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500`}
+              required
+            />
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+            )}
+            <p className="text-gray-500 text-xs mt-1">
+              Password harus memiliki minimal 8 karakter, 1 huruf besar, 1
+              angka, dan 1 simbol (.,?/#)
+            </p>
+          </div>
           <button
             type="submit"
             className="w-full bg-green-600 text-white font-semibold py-3 rounded-lg hover:bg-green-700 transition duration-300"
