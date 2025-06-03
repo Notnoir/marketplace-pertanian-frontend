@@ -13,7 +13,6 @@ export default function TambahProduk() {
   const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    // Ambil data user dari localStorage
     const userData = localStorage.getItem("user");
     if (userData) {
       const user = JSON.parse(userData);
@@ -58,71 +57,76 @@ export default function TambahProduk() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 border rounded shadow">
-      <h2 className="text-2xl font-bold mb-4">Tambah Produk Baru</h2>
-      <form onSubmit={handleSubmit} className="space-y-3">
-        <input
-          type="text"
-          name="nama_produk"
-          placeholder="Nama Produk"
-          value={form.nama_produk}
-          onChange={handleChange}
-          className="w-full p-2 border rounded"
-          required
-        />
-        <textarea
-          name="deskripsi"
-          placeholder="Deskripsi"
-          value={form.deskripsi}
-          onChange={handleChange}
-          className="w-full p-2 border rounded"
-          required
-        />
-        <input
-          type="number"
-          name="harga"
-          placeholder="Harga (Rp)"
-          value={form.harga}
-          onChange={handleChange}
-          className="w-full p-2 border rounded"
-          required
-          min="0"
-          step="0.01"
-        />
-        <input
-          type="number"
-          name="stok"
-          placeholder="Stok"
-          value={form.stok}
-          onChange={handleChange}
-          className="w-full p-2 border rounded"
-          required
-          min="0"
-        />
-        <input
-          type="text"
-          name="satuan"
-          placeholder="Satuan (contoh: kg, buah)"
-          value={form.satuan}
-          onChange={handleChange}
-          className="w-full p-2 border rounded"
-          required
-        />
-        <input
-          type="text"
-          name="foto_url"
-          placeholder="URL Foto Produk"
-          value={form.foto_url}
-          onChange={handleChange}
-          className="w-full p-2 border rounded"
-        />
-        <button
-          type="submit"
-          className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700"
-        >
-          Tambah Produk
-        </button>
-      </form>
+    <div className="min-h-screen bg-gradient-to-br from-green-100 to-green-300 flex items-center justify-center px-4 py-10">
+      <div className="bg-white rounded-xl shadow-lg max-w-md w-full p-8">
+        <h2 className="text-3xl font-extrabold text-green-800 mb-8 text-center">
+          Tambah Produk Baru
+        </h2>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <input
+            type="text"
+            name="nama_produk"
+            placeholder="Nama Produk"
+            value={form.nama_produk}
+            onChange={handleChange}
+            className="w-full px-4 py-3 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+            required
+          />
+          <textarea
+            name="deskripsi"
+            placeholder="Deskripsi"
+            value={form.deskripsi}
+            onChange={handleChange}
+            className="w-full px-4 py-3 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
+            rows={4}
+            required
+          />
+          <input
+            type="number"
+            name="harga"
+            placeholder="Harga (Rp)"
+            value={form.harga}
+            onChange={handleChange}
+            className="w-full px-4 py-3 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+            required
+            min="0"
+            step="0.01"
+          />
+          <input
+            type="number"
+            name="stok"
+            placeholder="Stok"
+            value={form.stok}
+            onChange={handleChange}
+            className="w-full px-4 py-3 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+            required
+            min="0"
+          />
+          <input
+            type="text"
+            name="satuan"
+            placeholder="Satuan (contoh: kg, buah)"
+            value={form.satuan}
+            onChange={handleChange}
+            className="w-full px-4 py-3 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+            required
+          />
+          <input
+            type="text"
+            name="foto_url"
+            placeholder="URL Foto Produk"
+            value={form.foto_url}
+            onChange={handleChange}
+            className="w-full px-4 py-3 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+          <button
+            type="submit"
+            className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition duration-300"
+          >
+            Tambah Produk
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
