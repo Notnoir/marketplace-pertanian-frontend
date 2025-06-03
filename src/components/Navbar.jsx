@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { FaLeaf, FaBoxOpen, FaUserPlus, FaSignInAlt, FaTachometerAlt, FaShoppingCart, FaPlusCircle, FaListAlt, FaFileAlt, FaSignOutAlt } from "react-icons/fa";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -7,7 +8,6 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Cek apakah user sudah login
     const userData = localStorage.getItem("user");
     if (userData) {
       setUser(JSON.parse(userData));
@@ -20,91 +20,82 @@ export default function Navbar() {
     navigate("/");
   };
 
+  const menuClass =
+    "inline-flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium hover:bg-green-800";
+
+  const mobileMenuClass =
+    "block px-3 py-2 rounded-md text-base font-medium hover:bg-green-800 flex items-center space-x-2";
+
   return (
     <nav className="bg-green-700 text-white shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           {/* Logo / Brand */}
-          <div className="flex-shrink-0 text-xl font-bold cursor-pointer">
-            <Link to="/">Marketplace Pertanian</Link>
+          <div className="flex-shrink-0 flex items-center cursor-pointer text-xl font-bold space-x-2">
+            <FaLeaf className="text-green-300 text-2xl" />
+            <Link to="/">AgriConnect</Link>
           </div>
 
           {/* Desktop menu */}
           <div className="hidden md:flex space-x-8">
-            <Link
-              to="/produk"
-              className="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-green-800"
-            >
-              Produk
+            <Link to="/produk" className={menuClass}>
+              <FaBoxOpen />
+              <span>Produk</span>
             </Link>
 
             {!user ? (
-              // Menu untuk user yang belum login
               <>
-                <Link
-                  to="/register"
-                  className="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-green-800"
-                >
-                  Register
+                <Link to="/register" className={menuClass}>
+                  <FaUserPlus />
+                  <span>Register</span>
                 </Link>
-                <Link
-                  to="/login"
-                  className="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-green-800"
-                >
-                  Login
+                <Link to="/login" className={menuClass}>
+                  <FaSignInAlt />
+                  <span>Login</span>
                 </Link>
               </>
             ) : (
-              // Menu untuk user yang sudah login
               <>
                 {user.role === "ADMIN" && (
-                  <Link
-                    to="/dashboard-admin"
-                    className="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-green-800"
-                  >
-                    Dashboard Admin
+                  <Link to="/dashboard-admin" className={menuClass}>
+                    <FaTachometerAlt />
+                    <span>Dashboard Admin</span>
                   </Link>
                 )}
 
                 {user.role === "PETANI" && (
                   <>
-                    <Link
-                      to="/dashboard-petani"
-                      className="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-green-800"
-                    >
-                      Dashboard Petani
+                    <Link to="/dashboard-petani" className={menuClass}>
+                      <FaTachometerAlt />
+                      <span>Dashboard Petani</span>
                     </Link>
-                    <Link
-                      to="/tambah-produk"
-                      className="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-green-800"
-                    >
-                      Tambah Produk
+                    <Link to="/tambah-produk" className={menuClass}>
+                      <FaPlusCircle />
+                      <span>Tambah Produk</span>
                     </Link>
                   </>
                 )}
 
                 {user.role === "PEMBELI" && (
                   <>
-                    <Link
-                      to="/dashboard-pembeli"
-                      className="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-green-800"
-                    >
-                      Dashboard Pembeli
+                    <Link to="/dashboard-pembeli" className={menuClass}>
+                      <FaTachometerAlt />
+                      <span>Dashboard Pembeli</span>
                     </Link>
-                    <Link
-                      to="/keranjang"
-                      className="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-green-800"
-                    >
-                      Keranjang
+                    <Link to="/keranjang" className={menuClass}>
+                      <FaShoppingCart />
+                      <span>Keranjang</span>
                     </Link>
                   </>
                 )}
 
                 <button
                   onClick={handleLogout}
-                  className="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-green-800"
+                  className={`${menuClass} bg-green-800 hover:bg-green-900`}
+                  title="Logout"
                 >
-                  Logout ({user.nama})
+                  <FaSignOutAlt />
+                  <span>Logout ({user.nama})</span>
                 </button>
               </>
             )}
@@ -164,40 +155,42 @@ export default function Navbar() {
           <div className="px-2 pt-2 pb-3 space-y-1">
             <Link
               to="/produk"
-              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-green-800"
+              className={mobileMenuClass}
               onClick={() => setIsOpen(false)}
             >
-              Produk
+              <FaBoxOpen />
+              <span>Produk</span>
             </Link>
 
             {!user ? (
-              // Menu untuk user yang belum login (mobile)
               <>
                 <Link
                   to="/register"
-                  className="block px-3 py-2 rounded-md text-base font-medium hover:bg-green-800"
+                  className={mobileMenuClass}
                   onClick={() => setIsOpen(false)}
                 >
-                  Register
+                  <FaUserPlus />
+                  <span>Register</span>
                 </Link>
                 <Link
                   to="/login"
-                  className="block px-3 py-2 rounded-md text-base font-medium hover:bg-green-800"
+                  className={mobileMenuClass}
                   onClick={() => setIsOpen(false)}
                 >
-                  Login
+                  <FaSignInAlt />
+                  <span>Login</span>
                 </Link>
               </>
             ) : (
-              // Menu untuk user yang sudah login (mobile)
               <>
                 {user.role === "ADMIN" && (
                   <Link
                     to="/dashboard-admin"
-                    className="block px-3 py-2 rounded-md text-base font-medium hover:bg-green-800"
+                    className={mobileMenuClass}
                     onClick={() => setIsOpen(false)}
                   >
-                    Dashboard Admin
+                    <FaTachometerAlt />
+                    <span>Dashboard Admin</span>
                   </Link>
                 )}
 
@@ -205,29 +198,42 @@ export default function Navbar() {
                   <>
                     <Link
                       to="/dashboard-petani"
-                      className="block px-3 py-2 rounded-md text-base font-medium hover:bg-green-800"
+                      className={mobileMenuClass}
                       onClick={() => setIsOpen(false)}
                     >
-                      Dashboard Petani
+                      <FaTachometerAlt />
+                      <span>Dashboard Petani</span>
                     </Link>
                     <Link
                       to="/tambah-produk"
-                      className="block px-3 py-2 rounded-md text-base font-medium hover:bg-green-800"
+                      className={mobileMenuClass}
                       onClick={() => setIsOpen(false)}
                     >
-                      Tambah Produk
+                      <FaPlusCircle />
+                      <span>Tambah Produk</span>
                     </Link>
                   </>
                 )}
 
                 {user.role === "PEMBELI" && (
-                  <Link
-                    to="/dashboard-pembeli"
-                    className="block px-3 py-2 rounded-md text-base font-medium hover:bg-green-800"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Dashboard Pembeli
-                  </Link>
+                  <>
+                    <Link
+                      to="/dashboard-pembeli"
+                      className={mobileMenuClass}
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <FaTachometerAlt />
+                      <span>Dashboard Pembeli</span>
+                    </Link>
+                    <Link
+                      to="/keranjang"
+                      className={mobileMenuClass}
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <FaShoppingCart />
+                      <span>Keranjang</span>
+                    </Link>
+                  </>
                 )}
 
                 <button
@@ -235,9 +241,11 @@ export default function Navbar() {
                     handleLogout();
                     setIsOpen(false);
                   }}
-                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium hover:bg-green-800"
+                  className={`${mobileMenuClass} w-full text-left`}
+                  title="Logout"
                 >
-                  Logout ({user.nama})
+                  <FaSignOutAlt />
+                  <span>Logout ({user.nama})</span>
                 </button>
               </>
             )}
