@@ -16,6 +16,7 @@ export default function Login() {
     try {
       const res = await API.post("/users/login", form);
       localStorage.setItem("user", JSON.stringify(res.data.user));
+      window.dispatchEvent(new Event("storage-event"));
       alert("Login berhasil: " + res.data.user.nama);
 
       const { role } = res.data.user;

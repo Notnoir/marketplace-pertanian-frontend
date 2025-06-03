@@ -38,6 +38,21 @@ function AppLayout() {
     if (userData) {
       setUser(JSON.parse(userData));
     }
+
+    const handleStorageChange = () => {
+      const updatedUserData = localStorage.getItem("user");
+      if (updatedUserData) {
+        setUser(JSON.parse(updatedUserData));
+      } else {
+        setUser(null);
+      }
+    };
+
+    window.addEventListener("storage-event", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage-event", handleStorageChange);
+    };
   }, []);
 
   const isAdminRoute = () => {

@@ -58,7 +58,9 @@ export default function DashboardPetani() {
 
   if (loading) {
     return (
-      <div className="text-center p-10 text-green-700 font-semibold">Loading...</div>
+      <div className="text-center p-10 text-green-700 font-semibold">
+        Loading...
+      </div>
     );
   }
 
@@ -73,11 +75,15 @@ export default function DashboardPetani() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-12">
         <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
-          <div className="text-green-600 text-5xl font-extrabold mb-2">{products.length}</div>
+          <div className="text-green-600 text-5xl font-extrabold mb-2">
+            {products.length}
+          </div>
           <div className="text-gray-700 font-medium">Total Produk</div>
         </div>
         <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
-          <div className="text-green-600 text-5xl font-extrabold mb-2">{transactions.length}</div>
+          <div className="text-green-600 text-5xl font-extrabold mb-2">
+            {transactions.length}
+          </div>
           <div className="text-gray-700 font-medium">Total Penjualan</div>
         </div>
       </div>
@@ -111,7 +117,9 @@ export default function DashboardPetani() {
           <table className="min-w-full text-left border-collapse">
             <thead>
               <tr className="bg-green-100 text-green-900">
-                <th className="py-3 px-5 border-b font-semibold">Nama Produk</th>
+                <th className="py-3 px-5 border-b font-semibold">
+                  Nama Produk
+                </th>
                 <th className="py-3 px-5 border-b font-semibold">Harga</th>
                 <th className="py-3 px-5 border-b font-semibold">Stok</th>
                 <th className="py-3 px-5 border-b font-semibold">Aksi</th>
@@ -131,7 +139,9 @@ export default function DashboardPetani() {
                   className="hover:bg-green-50 transition-colors"
                 >
                   <td className="py-3 px-5 border-b">{product.nama_produk}</td>
-                  <td className="py-3 px-5 border-b">Rp {product.harga.toLocaleString("id-ID")}</td>
+                  <td className="py-3 px-5 border-b">
+                    Rp {(product.harga ?? 0).toLocaleString("id-ID")}
+                  </td>
                   <td className="py-3 px-5 border-b">
                     {product.stok} {product.satuan}
                   </td>
@@ -160,7 +170,9 @@ export default function DashboardPetani() {
       {confirmDelete && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg max-w-sm w-full shadow-lg">
-            <h3 className="text-lg font-semibold mb-4 text-center">Konfirmasi Hapus</h3>
+            <h3 className="text-lg font-semibold mb-4 text-center">
+              Konfirmasi Hapus
+            </h3>
             <p className="mb-6 text-center">
               Apakah Anda yakin ingin menghapus produk ini?
             </p>
@@ -211,16 +223,24 @@ export default function DashboardPetani() {
                   className="hover:bg-green-50 transition-colors"
                 >
                   <td className="py-3 px-5 border-b">
-                    {new Date(transaction.tanggal).toLocaleDateString()}
+                    {transaction.transaksi?.tanggal
+                      ? new Date(
+                          transaction.transaksi.tanggal
+                        ).toLocaleDateString()
+                      : "N/A"}
                   </td>
                   <td className="py-3 px-5 border-b">
                     {transaction.produk?.nama_produk || "N/A"}
                   </td>
-                  <td className="py-3 px-5 border-b">{transaction.jumlah}</td>
                   <td className="py-3 px-5 border-b">
-                    Rp {transaction.total_harga.toLocaleString("id-ID")}
+                    {transaction.jumlah || "N/A"}
                   </td>
-                  <td className="py-3 px-5 border-b capitalize">{transaction.status.toLowerCase()}</td>
+                  <td className="py-3 px-5 border-b">
+                    Rp {(transaction.subtotal ?? 0).toLocaleString("id-ID")}
+                  </td>
+                  <td className="py-3 px-5 border-b capitalize">
+                    {transaction.transaksi?.status?.toLowerCase() ?? ""}
+                  </td>
                 </tr>
               ))}
             </tbody>
