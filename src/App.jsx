@@ -27,6 +27,9 @@ import DetailProduk from "./pages/pembeli/DetailProduk";
 import Keranjang from "./pages/pembeli/Keranjang";
 import DetailTransaksi from "./pages/pembeli/DetailTransaksi";
 import PembeliSidebar from "./components/PembeliSidebar";
+import DaftarProduk from "./pages/petani/DaftarProduk";
+import DaftarPesananPembeli from "./pages/pembeli/DaftarPesananPembeli";
+import DetailPesananPembeli from "./pages/pembeli/DetailPesananPembeli";
 
 // Komponen wrapper untuk mendeteksi rute dan menampilkan layout yang sesuai
 function AppLayout() {
@@ -73,16 +76,20 @@ function AppLayout() {
       "/daftar-pesanan",
       "/pesanan",
       "/laporan-penjualan",
+      "/daftar-produk", // Tambahkan rute baru
     ];
     return petaniRoutes.some((route) => location.pathname.startsWith(route));
   };
 
+  // Di dalam fungsi isPembeliRoute, tambahkan rute baru
   const isPembeliRoute = () => {
     const pembeliRoutes = [
       "/dashboard-pembeli",
       "/keranjang",
       "/detail-transaksi",
       "/produk",
+      "/daftar-pesanan-pembeli", // Tambahkan rute baru
+      "/detail-pesanan-pembeli", // Tambahkan rute baru
     ];
     return pembeliRoutes.some((route) => location.pathname.startsWith(route));
   };
@@ -123,7 +130,6 @@ function AppLayout() {
           <Route path="/dashboard-admin" element={<DashboardAdmin />} />
           <Route path="/dashboard-petani" element={<DashboardPetani />} />
           <Route path="/dashboard-pembeli" element={<DashboardPembeli />} />
-
           {/* Rute baru untuk halaman admin terpisah */}
           <Route path="/admin/users" element={<AdminUsers />} />
           <Route path="/admin/products" element={<AdminProducts />} />
@@ -132,11 +138,20 @@ function AppLayout() {
           <Route path="/pesanan/:id" element={<DetailPesanan />} />
           <Route path="/daftar-pesanan" element={<DaftarPesanan />} />
           <Route path="/laporan-penjualan" element={<LaporanPenjualan />} />
-
+          <Route path="/daftar-produk" element={<DaftarProduk />} />
           {/* Rute baru untuk fitur pembeli */}
           <Route path="/produk/:id" element={<DetailProduk />} />
           <Route path="/keranjang" element={<Keranjang />} />
           <Route path="/detail-transaksi/:id" element={<DetailTransaksi />} />
+          {/* Rute baru untuk daftar pesanan dan detail pesanan pembeli */}
+          <Route
+            path="/daftar-pesanan-pembeli"
+            element={<DaftarPesananPembeli />}
+          />
+          <Route
+            path="/detail-pesanan-pembeli/:id"
+            element={<DetailPesananPembeli />}
+          />
         </Routes>
       </div>
     </>
