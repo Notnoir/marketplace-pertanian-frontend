@@ -207,17 +207,18 @@ export default function DashboardPetani() {
                 <th className="py-3 px-5 border-b font-semibold">Jumlah</th>
                 <th className="py-3 px-5 border-b font-semibold">Total</th>
                 <th className="py-3 px-5 border-b font-semibold">Status</th>
+                <th className="py-3 px-5 border-b font-semibold">Aksi</th>
               </tr>
             </thead>
             <tbody>
               {transactions.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="text-center py-6 text-gray-500">
+                  <td colSpan={6} className="text-center py-6 text-gray-500">
                     Belum ada penjualan
                   </td>
                 </tr>
               )}
-              {transactions.map((transaction) => (
+              {transactions.slice(0, 5).map((transaction) => (
                 <tr
                   key={transaction.id}
                   className="hover:bg-green-50 transition-colors"
@@ -239,14 +240,54 @@ export default function DashboardPetani() {
                     Rp {(transaction.subtotal ?? 0).toLocaleString("id-ID")}
                   </td>
                   <td className="py-3 px-5 border-b capitalize">
-                    {transaction.transaksi?.status?.toLowerCase() ?? ""}
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs ${getStatusColor(
+                        transaction.transaksi?.status || ""
+                      )}`}
+                    >
+                      {transaction.transaksi?.status?.toLowerCase() ?? ""}
+                    </span>
+                  </td>
+                  <td className="py-3 px-5 border-b">
+                    <Link
+                      to={`/pesanan/${transaction.transaksi?.id}`}
+                      className="text-blue-600 hover:underline font-medium"
+                    >
+                      Detail
+                    </Link>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+          {transactions.length > 5 && (
+            <div className="mt-4 text-center">
+              <Link
+                to="/daftar-pesanan"
+                className="text-blue-600 hover:underline font-medium"
+              >
+                Lihat Semua Pesanan
+              </Link>
+            </div>
+          )}
         </div>
       </section>
     </div>
   );
+}
+
+// Fungsi untuk mendapatkan warna berdasarkan status
+function getStatusColor(status) {
+  switch (status?.toUpperCase()) {
+    case "MENUNGGU":
+      return "bg-yellow-100 text-yellow-800";
+    case "DIPROSES":
+      return "bg-blue-100 text-blue-800";
+    case "SELESAI":
+      return "bg-green-100 text-green-800";
+    case "DIBATALKAN":
+      return "bg-red-100 text-red-800";
+    default:
+      return "bg-gray-100 text-gray-800";
+  }
 }
