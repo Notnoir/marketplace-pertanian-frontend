@@ -30,6 +30,7 @@ import PembeliSidebar from "./components/PembeliSidebar";
 import DaftarProduk from "./pages/petani/DaftarProduk";
 import DaftarPesananPembeli from "./pages/pembeli/DaftarPesananPembeli";
 import DetailPesananPembeli from "./pages/pembeli/DetailPesananPembeli";
+import Chat from "./pages/Chat";
 
 // Komponen wrapper untuk mendeteksi rute dan menampilkan layout yang sesuai
 function AppLayout() {
@@ -64,6 +65,7 @@ function AppLayout() {
       "/admin/users",
       "/admin/products",
       "/admin/transactions",
+      "/chat", // Tambahkan rute chat untuk admin
     ];
     return adminRoutes.some((route) => location.pathname.startsWith(route));
   };
@@ -76,20 +78,21 @@ function AppLayout() {
       "/daftar-pesanan",
       "/pesanan",
       "/laporan-penjualan",
-      "/daftar-produk", // Tambahkan rute baru
+      "/daftar-produk",
+      "/chat", // Tambahkan rute chat untuk petani
     ];
     return petaniRoutes.some((route) => location.pathname.startsWith(route));
   };
 
-  // Di dalam fungsi isPembeliRoute, tambahkan rute baru
   const isPembeliRoute = () => {
     const pembeliRoutes = [
       "/dashboard-pembeli",
       "/keranjang",
       "/detail-transaksi",
       "/produk",
-      "/daftar-pesanan-pembeli", // Tambahkan rute baru
-      "/detail-pesanan-pembeli", // Tambahkan rute baru
+      "/daftar-pesanan-pembeli",
+      "/detail-pesanan-pembeli",
+      "/chat", // Rute chat sudah ada
     ];
     return pembeliRoutes.some((route) => location.pathname.startsWith(route));
   };
@@ -152,6 +155,8 @@ function AppLayout() {
             path="/detail-pesanan-pembeli/:id"
             element={<DetailPesananPembeli />}
           />
+          {/* Tambahkan route untuk Chat di sini */}
+          <Route path="/chat" element={<Chat />} />
         </Routes>
       </div>
     </>
@@ -165,3 +170,5 @@ export default function App() {
     </Router>
   );
 }
+
+// Hapus kode route yang berada di luar komponen
