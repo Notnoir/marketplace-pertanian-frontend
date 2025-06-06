@@ -8,6 +8,7 @@ export default function DetailProduk() {
   const [jumlah, setJumlah] = useState(1);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [petani, setPetani] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,7 +20,14 @@ export default function DetailProduk() {
 
     // Ambil data produk berdasarkan ID
     API.get(`/produk/${id}`)
-      .then((res) => setProduk(res.data))
+      .then((res) => {
+        setProduk(res.data);
+        // Ambil data petani
+        return API.get(`/users/${res.data.user_id}`);
+      })
+      .then((res) => {
+        setPetani(res.data);
+      })
       .catch((err) => alert("Gagal memuat produk: " + err.message))
       .finally(() => setLoading(false));
   }, [id]);
@@ -68,6 +76,24 @@ export default function DetailProduk() {
     alert("Produk berhasil ditambahkan ke keranjang");
   };
 
+  // Fungsi untuk mengarahkan ke halaman chat dengan petani
+  const handleChatPetani = () => {
+    if (!user) {
+      alert("Silakan login terlebih dahulu untuk chat dengan petani");
+      navigate("/login");
+      return;
+    }
+
+    if (user.role !== "PEMBELI") {
+      alert("Hanya pembeli yang dapat chat dengan petani");
+      return;
+    }
+
+    // Simpan data petani ke localStorage untuk digunakan di halaman chat
+    localStorage.setItem("selected_chat_user", JSON.stringify(petani));
+    navigate("/chat");
+  };
+
   if (loading) {
     return <div className="text-center p-10">Loading...</div>;
   }
@@ -105,6 +131,9 @@ export default function DetailProduk() {
               <p className="text-gray-700">
                 Stok: {produk.stok} {produk.satuan}
               </p>
+              {petani && (
+                <p className="text-gray-700 mt-2">Penjual: {petani.nama}</p>
+              )}
             </div>
             <div className="flex items-center mb-6">
               <button
@@ -128,13 +157,35 @@ export default function DetailProduk() {
                 +
               </button>
             </div>
-            <button
-              onClick={handleAddToCart}
-              className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition"
-              disabled={produk.stok < 1}
-            >
-              {produk.stok < 1 ? "Stok Habis" : "Tambahkan ke Keranjang"}
-            </button>
+            <div className="flex flex-col space-y-3">
+              <button
+                onClick={handleAddToCart}
+                className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition"
+                disabled={produk.stok < 1}
+              >
+                {produk.stok < 1 ? "Stok Habis" : "Tambahkan ke Keranjang"}
+              </button>
+              {petani && (
+                <button
+                  onClick={handleChatPetani}
+                  className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  Chat dengan Penjual
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>

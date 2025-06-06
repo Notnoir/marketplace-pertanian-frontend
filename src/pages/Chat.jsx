@@ -13,6 +13,25 @@ export default function Chat() {
   const [showAllUsers, setShowAllUsers] = useState(false);
   const navigate = useNavigate();
 
+  // Fungsi untuk memuat daftar percakapan
+  const loadConversations = (userId) => {
+    setLoading(true);
+    API.get(`/chat/users/${userId}`)
+      .then((res) => {
+        console.log("Conversations loaded:", res.data);
+        setConversations(res.data);
+      })
+      .catch((err) => {
+        console.error("Error fetching conversations:", err);
+        // Keep this alert for debugging
+        alert(
+          "Error fetching conversations: " +
+            (err.response?.data?.message || err.message)
+        );
+      })
+      .finally(() => setLoading(false));
+  };
+
   // Cek autentikasi
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -24,11 +43,16 @@ export default function Chat() {
     const parsedUser = JSON.parse(userData);
     setUser(parsedUser);
 
+    // Cek apakah ada pengguna yang dipilih dari halaman lain
+    const selectedChatUser = localStorage.getItem("selected_chat_user");
+    if (selectedChatUser) {
+      setSelectedUser(JSON.parse(selectedChatUser));
+      // Hapus dari localStorage setelah digunakan
+      localStorage.removeItem("selected_chat_user");
+    }
+
     // Ambil daftar percakapan
-    API.get(`/chat/users/${parsedUser.id}`)
-      .then((res) => setConversations(res.data))
-      .catch((err) => console.error("Error fetching conversations:", err))
-      .finally(() => setLoading(false));
+    loadConversations(parsedUser.id);
 
     // Ambil semua pengguna untuk pencarian
     API.get("/users")
@@ -61,10 +85,13 @@ export default function Chat() {
     setSelectedUser(null);
     // Refresh daftar percakapan
     if (user) {
-      API.get(`/chat/users/${user.id}`)
-        .then((res) => setConversations(res.data))
-        .catch((err) => console.error("Error refreshing conversations:", err));
+      loadConversations(user.id);
     }
+  };
+
+  // Toggle tampilan semua pengguna
+  const toggleShowAllUsers = () => {
+    setShowAllUsers(!showAllUsers);
   };
 
   if (loading) {
@@ -87,103 +114,72 @@ export default function Chat() {
             onBack={handleBack}
           />
         ) : (
-          <div className="h-full">
-            <div className="p-4 border-b">
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Cari pengguna..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full p-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                  onFocus={() => setShowAllUsers(true)}
-                />
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 absolute left-3 top-3 text-gray-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
-              </div>
-              <div className="flex mt-3">
-                <button
-                  onClick={() => setShowAllUsers(false)}
-                  className={`mr-4 pb-2 ${
-                    !showAllUsers
-                      ? "border-b-2 border-green-500 font-medium text-green-600"
-                      : "text-gray-500"
-                  }`}
-                >
-                  Percakapan Terbaru
-                </button>
-                <button
-                  onClick={() => setShowAllUsers(true)}
-                  className={`pb-2 ${
-                    showAllUsers
-                      ? "border-b-2 border-green-500 font-medium text-green-600"
-                      : "text-gray-500"
-                  }`}
-                >
-                  Semua Pengguna
-                </button>
-              </div>
+          <div className="p-4">
+            {/* Search bar */}
+            <div className="mb-4">
+              <input
+                type="text"
+                placeholder="Cari pengguna..."
+                className="w-full p-2 border rounded"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
             </div>
 
-            <div className="overflow-y-auto" style={{ maxHeight: "500px" }}>
+            {/* Toggle button */}
+            <div className="mb-4">
+              <button
+                onClick={toggleShowAllUsers}
+                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+              >
+                {showAllUsers ? "Tampilkan Percakapan" : "Cari Pengguna Baru"}
+              </button>
+            </div>
+
+            {/* User list */}
+            <div className="space-y-2">
               {showAllUsers ? (
+                // Tampilkan semua pengguna yang tersedia untuk chat
                 filteredAllUsers.length > 0 ? (
-                  filteredAllUsers.map((user) => (
+                  filteredAllUsers.map((u) => (
                     <div
-                      key={user.id}
-                      onClick={() => handleSelectUser(user)}
-                      className="p-4 border-b hover:bg-gray-50 cursor-pointer"
+                      key={u.id}
+                      className="p-3 border rounded cursor-pointer hover:bg-gray-100 flex justify-between items-center"
+                      onClick={() => handleSelectUser(u)}
                     >
-                      <div className="flex items-center">
-                        <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white font-bold">
-                          {user.nama.charAt(0).toUpperCase()}
-                        </div>
-                        <div className="ml-3">
-                          <h3 className="font-medium">{user.nama}</h3>
-                          <p className="text-sm text-gray-500">{user.role}</p>
-                        </div>
+                      <div>
+                        <p className="font-medium">{u.nama}</p>
+                        <p className="text-xs text-gray-500">{u.role}</p>
                       </div>
+                      <span className="text-green-600 text-sm">Mulai Chat</span>
                     </div>
                   ))
                 ) : (
-                  <div className="p-4 text-center text-gray-500">
+                  <p className="text-center text-gray-500 my-4">
                     Tidak ada pengguna yang ditemukan
-                  </div>
+                  </p>
                 )
-              ) : filteredConversations.length > 0 ? (
+              ) : // Tampilkan daftar percakapan yang sudah ada
+              filteredConversations.length > 0 ? (
                 filteredConversations.map((conv) => (
                   <div
                     key={conv.id}
+                    className="p-3 border rounded cursor-pointer hover:bg-gray-100 flex justify-between items-center"
                     onClick={() => handleSelectUser(conv)}
-                    className="p-4 border-b hover:bg-gray-50 cursor-pointer"
                   >
-                    <div className="flex items-center">
-                      <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white font-bold">
-                        {conv.nama.charAt(0).toUpperCase()}
-                      </div>
-                      <div className="ml-3">
-                        <h3 className="font-medium">{conv.nama}</h3>
-                        <p className="text-sm text-gray-500">{conv.role}</p>
-                      </div>
+                    <div>
+                      <p className="font-medium">{conv.nama}</p>
+                      <p className="text-xs text-gray-500">{conv.role}</p>
                     </div>
+                    <span className="text-green-600 text-sm">
+                      Lanjutkan Chat
+                    </span>
                   </div>
                 ))
               ) : (
-                <div className="p-4 text-center text-gray-500">
-                  Belum ada percakapan. Cari pengguna untuk memulai chat!
-                </div>
+                <p className="text-center text-gray-500 my-4">
+                  Belum ada percakapan. Mulai chat dengan pengguna baru!
+                </p>
               )}
             </div>
           </div>

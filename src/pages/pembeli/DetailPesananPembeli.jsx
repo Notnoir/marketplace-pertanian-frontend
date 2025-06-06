@@ -84,6 +84,38 @@ export default function DetailPesananPembeli() {
     }
   };
 
+  // Tambahkan fungsi untuk membatalkan pesanan
+  const cancelOrder = () => {
+    if (window.confirm("Apakah Anda yakin ingin membatalkan pesanan ini?")) {
+      setLoading(true);
+      API.put(`/transaksi/${id}/status`, { status: "DIBATALKAN" })
+        .then(() => {
+          alert("Pesanan berhasil dibatalkan");
+          // Refresh data
+          fetchData();
+        })
+        .catch((error) => {
+          console.error("Error cancelling order:", error);
+          alert("Gagal membatalkan pesanan: " + error.message);
+        })
+        .finally(() => setLoading(false));
+    }
+  };
+
+  // Tambahkan fungsi untuk menghubungi penjual
+  const contactSeller = (sellerId, sellerName) => {
+    // Simpan informasi penjual untuk halaman chat
+    localStorage.setItem(
+      "selected_chat_user",
+      JSON.stringify({
+        id: sellerId,
+        nama: sellerName,
+        role: "PETANI",
+      })
+    );
+    navigate("/chat");
+  };
+
   if (loading) {
     return <div className="text-center p-10">Loading...</div>;
   }
@@ -141,9 +173,35 @@ export default function DetailPesananPembeli() {
         <h2 className="text-xl font-semibold mb-4">Detail Produk</h2>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white">
+            <div className="mt-4 flex space-x-4">
+              {transaction.status === "MENUNGGU" && (
+                <button
+                  onClick={cancelOrder}
+                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                >
+                  Batalkan Pesanan
+                </button>
+              )}
+              {details.length > 0 &&
+                details[0].product &&
+                details[0].product.user_id && (
+                  <button
+                    onClick={() =>
+                      contactSeller(
+                        details[0].product.user_id,
+                        details[0].product.user_nama || "Penjual"
+                      )
+                    }
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                  >
+                    Hubungi Penjual
+                  </button>
+                )}
+            </div>
             <thead>
               <tr>
                 <th className="py-2 px-4 border-b">Produk</th>
+                <th className="py-2 px-4 border-b">Penjual</th>
                 <th className="py-2 px-4 border-b">Harga Satuan</th>
                 <th className="py-2 px-4 border-b">Jumlah</th>
                 <th className="py-2 px-4 border-b">Subtotal</th>
@@ -169,6 +227,9 @@ export default function DetailPesananPembeli() {
                     </div>
                   </td>
                   <td className="py-2 px-4 border-b text-center">
+                    {detail.product.user_nama || "Penjual"}
+                  </td>
+                  <td className="py-2 px-4 border-b text-center">
                     Rp {Number(detail.harga_satuan).toLocaleString()}
                   </td>
                   <td className="py-2 px-4 border-b text-center">
@@ -181,7 +242,7 @@ export default function DetailPesananPembeli() {
               ))}
               <tr className="bg-gray-50">
                 <td
-                  colSpan="3"
+                  colSpan="4"
                   className="py-3 px-4 border-b text-right font-semibold"
                 >
                   Total:
