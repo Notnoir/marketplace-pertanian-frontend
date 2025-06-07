@@ -13,86 +13,55 @@ export default function Chat() {
   const [showAllUsers, setShowAllUsers] = useState(false);
   const navigate = useNavigate();
 
-  // Fungsi untuk memuat daftar percakapan
   const loadConversations = (userId) => {
     setLoading(true);
     API.get(`/chat/users/${userId}`)
-      .then((res) => {
-        console.log("Conversations loaded:", res.data);
-        setConversations(res.data);
-      })
-      .catch((err) => {
-        console.error("Error fetching conversations:", err);
-        // Keep this alert for debugging
-        alert(
-          "Error fetching conversations: " +
-            (err.response?.data?.message || err.message)
-        );
-      })
+      .then((res) => setConversations(res.data))
+      .catch((err) => alert("Error: " + (err.response?.data?.message || err.message)))
       .finally(() => setLoading(false));
   };
 
-  // Cek autentikasi
   useEffect(() => {
     const userData = localStorage.getItem("user");
-    if (!userData) {
-      navigate("/login");
-      return;
-    }
+    if (!userData) return navigate("/login");
 
     const parsedUser = JSON.parse(userData);
     setUser(parsedUser);
 
-    // Cek apakah ada pengguna yang dipilih dari halaman lain
     const selectedChatUser = localStorage.getItem("selected_chat_user");
     if (selectedChatUser) {
       setSelectedUser(JSON.parse(selectedChatUser));
-      // Hapus dari localStorage setelah digunakan
       localStorage.removeItem("selected_chat_user");
     }
 
-    // Ambil daftar percakapan
     loadConversations(parsedUser.id);
 
-    // Ambil semua pengguna untuk pencarian
     API.get("/users")
       .then((res) => {
-        // Filter out current user
-        const filteredUsers = res.data.filter((u) => u.id !== parsedUser.id);
-        setAllUsers(filteredUsers);
+        const filtered = res.data.filter((u) => u.id !== parsedUser.id);
+        setAllUsers(filtered);
       })
       .catch((err) => console.error("Error fetching users:", err));
   }, [navigate]);
 
-  // Filter percakapan berdasarkan pencarian
   const filteredConversations = conversations.filter((conv) =>
     conv.nama.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  // Filter semua pengguna berdasarkan pencarian
   const filteredAllUsers = allUsers.filter((u) =>
     u.nama.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Pilih pengguna untuk chat
   const handleSelectUser = (user) => {
     setSelectedUser(user);
     setShowAllUsers(false);
   };
 
-  // Kembali ke daftar percakapan
   const handleBack = () => {
     setSelectedUser(null);
-    // Refresh daftar percakapan
-    if (user) {
-      loadConversations(user.id);
-    }
+    if (user) loadConversations(user.id);
   };
 
-  // Toggle tampilan semua pengguna
-  const toggleShowAllUsers = () => {
-    setShowAllUsers(!showAllUsers);
-  };
+  const toggleShowAllUsers = () => setShowAllUsers(!showAllUsers);
 
   if (loading) {
     return (
@@ -104,81 +73,49 @@ export default function Chat() {
 
   return (
     <div className="container mx-auto p-4 max-w-6xl">
-      <h1 className="text-2xl font-bold mb-6">Chat</h1>
-
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden min-h-[600px]">
+      <h1 className="text-3xl font-bold text-green-800 mb-6">Pesan</h1>
+      <div className="bg-white rounded-xl shadow-lg overflow-hidden min-h-[600px]">
         {selectedUser ? (
-          <ChatBox
-            currentUser={user}
-            otherUser={selectedUser}
-            onBack={handleBack}
-          />
+          <ChatBox currentUser={user} otherUser={selectedUser} onBack={handleBack} />
         ) : (
-          <div className="p-4">
-            {/* Search bar */}
-            <div className="mb-4">
+          <div className="p-6">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
               <input
                 type="text"
                 placeholder="Cari pengguna..."
-                className="w-full p-2 border rounded"
+                className="w-full md:w-1/2 p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
-            </div>
-
-            {/* Toggle button */}
-            <div className="mb-4">
               <button
                 onClick={toggleShowAllUsers}
-                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                className="bg-green-600 text-white px-6 py-2 rounded-lg shadow hover:bg-green-700 transition"
               >
                 {showAllUsers ? "Tampilkan Percakapan" : "Cari Pengguna Baru"}
               </button>
             </div>
 
-            {/* User list */}
-            <div className="space-y-2">
-              {showAllUsers ? (
-                // Tampilkan semua pengguna yang tersedia untuk chat
-                filteredAllUsers.length > 0 ? (
-                  filteredAllUsers.map((u) => (
-                    <div
-                      key={u.id}
-                      className="p-3 border rounded cursor-pointer hover:bg-gray-100 flex justify-between items-center"
-                      onClick={() => handleSelectUser(u)}
-                    >
-                      <div>
-                        <p className="font-medium">{u.nama}</p>
-                        <p className="text-xs text-gray-500">{u.role}</p>
-                      </div>
-                      <span className="text-green-600 text-sm">Mulai Chat</span>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-center text-gray-500 my-4">
-                    Tidak ada pengguna yang ditemukan
-                  </p>
-                )
-              ) : // Tampilkan daftar percakapan yang sudah ada
-              filteredConversations.length > 0 ? (
-                filteredConversations.map((conv) => (
-                  <div
-                    key={conv.id}
-                    className="p-3 border rounded cursor-pointer hover:bg-gray-100 flex justify-between items-center"
-                    onClick={() => handleSelectUser(conv)}
-                  >
-                    <div>
-                      <p className="font-medium">{conv.nama}</p>
-                      <p className="text-xs text-gray-500">{conv.role}</p>
-                    </div>
-                    <span className="text-green-600 text-sm">
-                      Lanjutkan Chat
-                    </span>
+            <div className="space-y-3">
+              {(showAllUsers ? filteredAllUsers : filteredConversations).map((item) => (
+                <div
+                  key={item.id}
+                  onClick={() => handleSelectUser(item)}
+                  className="cursor-pointer p-4 bg-gray-50 border rounded-lg hover:bg-green-50 flex items-center justify-between"
+                >
+                  <div>
+                    <p className="text-lg font-semibold text-gray-800">{item.nama}</p>
+                    <p className="text-sm text-gray-500">{item.role}</p>
                   </div>
-                ))
-              ) : (
-                <p className="text-center text-gray-500 my-4">
-                  Belum ada percakapan. Mulai chat dengan pengguna baru!
+                  <span className="text-green-600 text-sm font-medium">
+                    {showAllUsers ? "Mulai Chat" : "Lanjutkan Chat"}
+                  </span>
+                </div>
+              ))}
+              {(showAllUsers ? filteredAllUsers : filteredConversations).length === 0 && (
+                <p className="text-center text-gray-500 py-6">
+                  {showAllUsers
+                    ? "Tidak ada pengguna yang ditemukan"
+                    : "Belum ada percakapan. Mulai chat dengan pengguna baru!"}
                 </p>
               )}
             </div>

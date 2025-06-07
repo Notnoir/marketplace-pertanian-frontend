@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 
 export default function Register() {
+  const navigate = useNavigate(); // Tambahkan ini untuk navigasi
   const [form, setForm] = useState({
     nama: "",
     email: "",
@@ -20,8 +22,7 @@ export default function Register() {
     try {
       await API.post("/users/register", form);
       alert("Registrasi berhasil! Silakan login.");
-      // Jika ingin, bisa diarahkan ke halaman login, contoh:
-      // navigate('/login');
+      navigate("/login"); // Redirect ke halaman login
     } catch (error) {
       alert(
         "Registrasi gagal: " + (error.response?.data?.message || error.message)
