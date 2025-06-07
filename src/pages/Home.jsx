@@ -51,97 +51,39 @@ export default function Home() {
     },
   ];
 
-  // Data contoh banner promo
-  const promoBanners = [
-    {
-      items: [
-        {
-          icon: "🛍️",
-          title: "Flash Sale",
-          description: "Diskon hingga 70%",
-          discount: "UP TO 70%",
-          bgColor: "bg-red-50",
-        },
-        {
-          icon: "📱",
-          title: "Gadget Sale",
-          description: "Smartphone terbaru",
-          discount: "UP TO 50%",
-          bgColor: "bg-blue-50",
-        },
-        {
-          icon: "👕",
-          title: "Fashion Week",
-          description: "Koleksi terbaru",
-          discount: "UP TO 60%",
-          bgColor: "bg-purple-50",
-        },
-        {
-          icon: "🏠",
-          title: "Home & Living",
-          description: "Dekorasi rumah",
-          discount: "UP TO 40%",
-          bgColor: "bg-green-50",
-        },
-      ],
-    },
-    // Slide kedua dengan 4 banner lainnya
-    {
-      items: [
-        {
-          icon: "🍔",
-          title: "Food Delivery",
-          description: "Gratis ongkir",
-          discount: "FREE SHIPPING",
-          bgColor: "bg-orange-50",
-        },
-        {
-          icon: "💄",
-          title: "Beauty Sale",
-          description: "Kosmetik terlengkap",
-          discount: "UP TO 45%",
-          bgColor: "bg-pink-50",
-        },
-        {
-          icon: "📚",
-          title: "Book Fair",
-          description: "Buku terbaru",
-          discount: "UP TO 30%",
-          bgColor: "bg-yellow-50",
-        },
-        {
-          icon: "🎮",
-          title: "Gaming Zone",
-          description: "Aksesoris gaming",
-          discount: "UP TO 55%",
-          bgColor: "bg-indigo-50",
-        },
-      ],
-    },
-  ];
+  // Function untuk membagi produk menjadi slides (4 produk per slide)
+  const getProductSlides = () => {
+    const slides = [];
+    for (let i = 0; i < featuredProducts.length; i += 4) {
+      slides.push(featuredProducts.slice(i, i + 4));
+    }
+    return slides;
+  };
 
-  // Auto-slide effect untuk banner promo
+  const productSlides = getProductSlides();
+
+  // Auto-slide effect untuk produk unggulan
   useEffect(() => {
-    if (!isBannerHovered) {
+    if (!isBannerHovered && productSlides.length > 1) {
       const bannerInterval = setInterval(() => {
         setCurrentBannerSlide((prev) =>
-          prev === promoBanners.length - 1 ? 0 : prev + 1
+          prev === productSlides.length - 1 ? 0 : prev + 1
         );
       }, 4000); // Ganti slide setiap 4 detik
 
       return () => clearInterval(bannerInterval);
     }
-  }, [isBannerHovered, promoBanners.length]);
+  }, [isBannerHovered, productSlides.length]);
 
   // Function untuk navigasi banner
   const setBannerSlide = (direction) => {
     if (direction === "next") {
       setCurrentBannerSlide((prev) =>
-        prev === promoBanners.length - 1 ? 0 : prev + 1
+        prev === productSlides.length - 1 ? 0 : prev + 1
       );
     } else {
       setCurrentBannerSlide((prev) =>
-        prev === 0 ? promoBanners.length - 1 : prev - 1
+        prev === 0 ? productSlides.length - 1 : prev - 1
       );
     }
   };
@@ -157,113 +99,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header Banner */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 py-2">
-          <div className="flex items-center justify-between text-sm">
-            <div className="flex items-center space-x-4">
-              <span className="text-gray-600">📱 Download Aplikasi</span>
-              <span className="text-gray-600">🚚 Gratis Ongkir</span>
-            </div>
-            <div className="flex items-center space-x-4">
-              <span className="text-gray-600">🛍️ Jual Produk Anda</span>
-              <span className="text-gray-600">📞 Bantuan</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Navigation */}
-      <div className="bg-white shadow-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-8">
-              <Link to="/" className="text-2xl font-bold text-emerald-600">
-                AgriMarket
-              </Link>
-              <div className="hidden lg:flex items-center space-x-6">
-                <Link
-                  to="/kategori"
-                  className="text-gray-700 hover:text-emerald-600"
-                >
-                  Kategori
-                </Link>
-                <Link
-                  to="/promo"
-                  className="text-gray-700 hover:text-emerald-600"
-                >
-                  Promo
-                </Link>
-                <Link
-                  to="/tentang"
-                  className="text-gray-700 hover:text-emerald-600"
-                >
-                  Tentang
-                </Link>
-              </div>
-            </div>
-
-            <div className="flex-1 max-w-2xl mx-8">
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Cari produk pertanian..."
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-emerald-500"
-                />
-                <button className="absolute right-2 top-2 p-1 text-gray-400 hover:text-emerald-600">
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-4">
-              <button className="p-2 text-gray-700 hover:text-emerald-600 relative">
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M17 13v8a2 2 0 01-2 2H9a2 2 0 01-2-2v-8m8 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01"
-                  />
-                </svg>
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
-                  3
-                </span>
-              </button>
-              <Link
-                to="/login"
-                className="px-4 py-2 text-emerald-600 border border-emerald-600 rounded-lg hover:bg-emerald-50"
-              >
-                Masuk
-              </Link>
-              <Link
-                to="/register"
-                className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700"
-              >
-                Daftar
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Hero Section with Carousel */}
       <div className="bg-white">
         <div className="max-w-7xl mx-auto px-4 py-6">
@@ -338,106 +173,188 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Banner Promo Carousel - Right below main carousel */}
+              {/* Produk Unggulan Carousel - Right below main carousel */}
               <div className="lg:col-span-3 mt-4">
                 <div className="relative">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                    Banner Promo
-                  </h3>
-
-                  {/* Banner Carousel Container */}
-                  <div className="relative overflow-hidden rounded-lg">
-                    <div
-                      className="flex transition-transform duration-1500 ease-in-out"
-                      style={{
-                        transform: `translateX(-${currentBannerSlide * 100}%)`,
-                      }}
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      ⭐ Produk Unggulan
+                    </h3>
+                    <Link
+                      to="/produk"
+                      className="text-emerald-600 hover:text-emerald-700 text-sm font-medium"
                     >
-                      {promoBanners.map((banner, index) => (
-                        <div key={index} className="w-full flex-shrink-0">
-                          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                            {banner.items.map((item, itemIndex) => (
-                              <div
-                                key={itemIndex}
-                                className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
-                              >
-                                <div
-                                  className={`${item.bgColor} p-3 text-center`}
-                                >
-                                  <div className="text-xl mb-1">
-                                    {item.icon}
-                                  </div>
-                                  <h4 className="font-semibold text-xs text-gray-800 mb-1">
-                                    {item.title}
-                                  </h4>
-                                  <p className="text-xs text-gray-600 mb-1">
-                                    {item.description}
-                                  </p>
-                                  <span className="text-xs font-bold text-red-600">
-                                    {item.discount}
-                                  </span>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      ))}
+                      Lihat Semua
+                    </Link>
+                  </div>
+
+                  {loading ? (
+                    <div className="flex justify-center items-center py-20">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600"></div>
                     </div>
-
-                    {/* Banner Navigation Arrows */}
-                    <button
-                      onClick={() => setBannerSlide("prev")}
-                      className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-1.5 shadow-md transition-all"
-                    >
-                      <svg
-                        className="w-4 h-4 text-gray-600"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
+                  ) : productSlides.length > 0 ? (
+                    <>
+                      {/* Featured Products Carousel Container */}
+                      <div
+                        className="relative overflow-hidden rounded-lg"
+                        onMouseEnter={() => setIsBannerHovered(true)}
+                        onMouseLeave={() => setIsBannerHovered(false)}
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M15 19l-7-7 7-7"
-                        />
-                      </svg>
-                    </button>
+                        <div
+                          className="flex transition-transform duration-1500 ease-in-out"
+                          style={{
+                            transform: `translateX(-${
+                              currentBannerSlide * 100
+                            }%)`,
+                          }}
+                        >
+                          {productSlides.map((slide, index) => (
+                            <div key={index} className="w-full flex-shrink-0">
+                              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                {slide.map((product) => (
+                                  <Link
+                                    key={product.id}
+                                    to={`/produk/${product.id}`}
+                                    className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow group"
+                                  >
+                                    <div className="relative">
+                                      {product.foto_url ? (
+                                        <img
+                                          src={product.foto_url}
+                                          alt={product.nama_produk}
+                                          className="w-full h-32 object-cover group-hover:scale-105 transition-transform"
+                                        />
+                                      ) : (
+                                        <div className="w-full h-32 bg-gray-200 flex items-center justify-center">
+                                          <svg
+                                            className="w-8 h-8 text-gray-400"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                          >
+                                            <path
+                                              strokeLinecap="round"
+                                              strokeLinejoin="round"
+                                              strokeWidth={2}
+                                              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                            />
+                                          </svg>
+                                        </div>
+                                      )}
+                                      <div className="absolute top-2 left-2 bg-emerald-500 text-white px-2 py-1 rounded text-xs font-medium">
+                                        Unggulan
+                                      </div>
+                                    </div>
+                                    <div className="p-3">
+                                      <h4 className="font-medium text-sm text-gray-800 mb-1 line-clamp-2">
+                                        {product.nama_produk}
+                                      </h4>
+                                      <div className="flex items-center justify-between">
+                                        <span className="text-sm font-bold text-emerald-600">
+                                          Rp{" "}
+                                          {Number(
+                                            product.harga
+                                          ).toLocaleString()}
+                                        </span>
+                                        <div className="flex items-center text-xs text-gray-500">
+                                          <span>⭐</span>
+                                          <span className="ml-1">4.8</span>
+                                        </div>
+                                      </div>
+                                      <p className="text-xs text-gray-500 mt-1">
+                                        Jakarta
+                                      </p>
+                                    </div>
+                                  </Link>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
 
-                    <button
-                      onClick={() => setBannerSlide("next")}
-                      className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-1.5 shadow-md transition-all"
-                    >
-                      <svg
-                        className="w-4 h-4 text-gray-600"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
-                    </button>
-                  </div>
+                        {/* Navigation Arrows - only show if more than 1 slide */}
+                        {productSlides.length > 1 && (
+                          <>
+                            <button
+                              onClick={() => setBannerSlide("prev")}
+                              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-1.5 shadow-md transition-all"
+                            >
+                              <svg
+                                className="w-4 h-4 text-gray-600"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M15 19l-7-7 7-7"
+                                />
+                              </svg>
+                            </button>
 
-                  {/* Banner Indicators */}
-                  <div className="flex justify-center mt-3 space-x-2">
-                    {promoBanners.map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setCurrentBannerSlide(index)}
-                        className={`w-2 h-2 rounded-full transition-colors ${
-                          index === currentBannerSlide
-                            ? "bg-blue-600"
-                            : "bg-gray-300"
-                        }`}
-                      />
-                    ))}
-                  </div>
+                            <button
+                              onClick={() => setBannerSlide("next")}
+                              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-1.5 shadow-md transition-all"
+                            >
+                              <svg
+                                className="w-4 h-4 text-gray-600"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M9 5l7 7-7 7"
+                                />
+                              </svg>
+                            </button>
+                          </>
+                        )}
+                      </div>
+
+                      {/* Indicators - only show if more than 1 slide */}
+                      {productSlides.length > 1 && (
+                        <div className="flex justify-center mt-3 space-x-2">
+                          {productSlides.map((_, index) => (
+                            <button
+                              key={index}
+                              onClick={() => setCurrentBannerSlide(index)}
+                              className={`w-2 h-2 rounded-full transition-colors ${
+                                index === currentBannerSlide
+                                  ? "bg-emerald-600"
+                                  : "bg-gray-300"
+                              }`}
+                            />
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <div className="text-center py-12 bg-gray-50 rounded-lg">
+                      <div className="text-gray-400 mb-2">
+                        <svg
+                          className="w-12 h-12 mx-auto"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
+                          />
+                        </svg>
+                      </div>
+                      <p className="text-gray-500 text-sm">
+                        Belum ada produk unggulan tersedia
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -473,7 +390,7 @@ export default function Home() {
       </div>
 
       {/* Flash Sale Section */}
-      <div className="bg-white py-8 border-t">
+      <div className="bg-white py-8">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center space-x-4">
@@ -549,7 +466,7 @@ export default function Home() {
       </div>
 
       {/* Featured Products */}
-      <div className="bg-white py-8 border-t">
+      <div className="bg-white py-8">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-bold text-gray-900">Produk Unggulan</h2>
