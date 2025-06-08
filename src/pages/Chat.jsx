@@ -17,7 +17,9 @@ export default function Chat() {
     setLoading(true);
     API.get(`/chat/users/${userId}`)
       .then((res) => setConversations(res.data))
-      .catch((err) => alert("Error: " + (err.response?.data?.message || err.message)))
+      .catch((err) =>
+        alert("Error: " + (err.response?.data?.message || err.message))
+      )
       .finally(() => setLoading(false));
   };
 
@@ -66,52 +68,97 @@ export default function Chat() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
       </div>
     );
   }
 
   return (
     <div className="container mx-auto p-4 max-w-6xl">
-      <h1 className="text-3xl font-bold text-green-800 mb-6">Pesan</h1>
-      <div className="bg-white rounded-xl shadow-lg overflow-hidden min-h-[600px]">
+      <h1 className="text-2xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent mb-6">
+        Pesan
+      </h1>
+      <div className="bg-white rounded-xl shadow-lg overflow-hidden min-h-[600px] border border-gray-200">
         {selectedUser ? (
-          <ChatBox currentUser={user} otherUser={selectedUser} onBack={handleBack} />
+          <ChatBox
+            currentUser={user}
+            otherUser={selectedUser}
+            onBack={handleBack}
+          />
         ) : (
           <div className="p-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-              <input
-                type="text"
-                placeholder="Cari pengguna..."
-                className="w-full md:w-1/2 p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+              <div className="relative w-full md:w-1/2">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-gray-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
+                  </svg>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Cari pengguna..."
+                  className="w-full pl-10 p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 hover:bg-white transition-colors"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
               <button
                 onClick={toggleShowAllUsers}
-                className="bg-green-600 text-white px-6 py-2 rounded-lg shadow hover:bg-green-700 transition"
+                className="bg-gradient-to-r from-green-500 to-blue-600 text-white px-6 py-3 rounded-lg shadow hover:from-green-600 hover:to-blue-700 transition-all duration-200"
               >
                 {showAllUsers ? "Tampilkan Percakapan" : "Cari Pengguna Baru"}
               </button>
             </div>
 
             <div className="space-y-3">
-              {(showAllUsers ? filteredAllUsers : filteredConversations).map((item) => (
-                <div
-                  key={item.id}
-                  onClick={() => handleSelectUser(item)}
-                  className="cursor-pointer p-4 bg-gray-50 border rounded-lg hover:bg-green-50 flex items-center justify-between"
-                >
-                  <div>
-                    <p className="text-lg font-semibold text-gray-800">{item.nama}</p>
-                    <p className="text-sm text-gray-500">{item.role}</p>
+              {(showAllUsers ? filteredAllUsers : filteredConversations).map(
+                (item) => (
+                  <div
+                    key={item.id}
+                    onClick={() => handleSelectUser(item)}
+                    className="cursor-pointer p-4 bg-gray-50 border rounded-lg hover:bg-blue-50 flex items-center justify-between transition-all duration-200"
+                  >
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-blue-600 rounded-full flex items-center justify-center shadow-md mr-3">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5 text-white"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <p className="text-lg font-semibold text-gray-800">
+                          {item.nama}
+                        </p>
+                        <p className="text-sm text-gray-500">{item.role}</p>
+                      </div>
+                    </div>
+                    <span className="text-blue-600 text-sm font-medium hover:text-blue-800 transition-colors">
+                      {showAllUsers ? "Mulai Chat" : "Lanjutkan Chat"}
+                    </span>
                   </div>
-                  <span className="text-green-600 text-sm font-medium">
-                    {showAllUsers ? "Mulai Chat" : "Lanjutkan Chat"}
-                  </span>
-                </div>
-              ))}
-              {(showAllUsers ? filteredAllUsers : filteredConversations).length === 0 && (
+                )
+              )}
+              {(showAllUsers ? filteredAllUsers : filteredConversations)
+                .length === 0 && (
                 <p className="text-center text-gray-500 py-6">
                   {showAllUsers
                     ? "Tidak ada pengguna yang ditemukan"

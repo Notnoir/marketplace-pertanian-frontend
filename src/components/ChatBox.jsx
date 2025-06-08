@@ -93,12 +93,13 @@ export default function ChatBox({ currentUser, otherUser, onBack }) {
   }
 
   return (
+    // Ubah bagian header dan styling pesan
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="bg-green-600 text-white p-4 flex items-center">
+      <div className="bg-gradient-to-r from-green-500 to-blue-600 text-white p-4 flex items-center">
         <button
           onClick={onBack}
-          className="mr-3 text-white hover:text-green-200"
+          className="mr-3 text-white hover:text-blue-200 transition-colors"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -115,14 +116,30 @@ export default function ChatBox({ currentUser, otherUser, onBack }) {
             />
           </svg>
         </button>
-        <div>
-          <h3 className="font-bold">{otherUser.nama}</h3>
-          <p className="text-xs">{otherUser.role}</p>
+        <div className="flex items-center">
+          <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center mr-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 text-white"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </div>
+          <div>
+            <h3 className="font-bold">{otherUser.nama}</h3>
+            <p className="text-xs text-blue-100">{otherUser.role}</p>
+          </div>
         </div>
       </div>
 
       {/* Messages */}
-      <div className="flex-1 p-4 overflow-y-auto bg-gray-100">
+      <div className="flex-1 p-4 overflow-y-auto bg-gray-50">
         {messages.length === 0 ? (
           <div className="text-center text-gray-500 my-8">
             Belum ada pesan. Mulai percakapan sekarang!
@@ -140,12 +157,18 @@ export default function ChatBox({ currentUser, otherUser, onBack }) {
               <div
                 className={`max-w-xs md:max-w-md rounded-lg p-3 ${
                   msg.sender_id === currentUser.id
-                    ? "bg-green-500 text-white"
-                    : "bg-white"
+                    ? "bg-gradient-to-r from-green-500 to-blue-600 text-white"
+                    : "bg-white border border-gray-200 shadow-sm"
                 }`}
               >
                 <p>{msg.message}</p>
-                <p className="text-xs mt-1 opacity-70">
+                <p
+                  className={`text-xs mt-1 ${
+                    msg.sender_id === currentUser.id
+                      ? "text-blue-100"
+                      : "text-gray-500"
+                  }`}
+                >
                   {new Date(msg.created_at).toLocaleString("id-ID", {
                     hour: "2-digit",
                     minute: "2-digit",
@@ -166,22 +189,24 @@ export default function ChatBox({ currentUser, otherUser, onBack }) {
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Ketik pesan..."
-            className="flex-1 border rounded-l-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="flex-1 border rounded-l-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 hover:bg-white transition-colors"
           />
           <button
             type="submit"
-            className="bg-green-600 text-white px-4 py-2 rounded-r-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="bg-gradient-to-r from-green-500 to-blue-600 text-white px-4 py-2 rounded-r-lg hover:from-green-600 hover:to-blue-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
               <path
-                fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z"
-                clipRule="evenodd"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
               />
             </svg>
           </button>

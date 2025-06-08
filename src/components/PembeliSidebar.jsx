@@ -1,134 +1,120 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import {
+  FaHome,
+  FaLeaf,
+  FaShoppingCart,
+  FaHistory,
+  FaUser,
+  FaSignOutAlt,
+  FaSearch,
+  FaBell,
+  FaTachometerAlt,
+} from "react-icons/fa";
 
 export default function PembeliSidebar() {
   const [user, setUser] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
 
   useEffect(() => {
-    // Cek apakah user sudah login
     const userData = localStorage.getItem("user");
     if (userData) {
       setUser(JSON.parse(userData));
     }
   }, []);
 
-  // Fungsi untuk menentukan apakah menu aktif
-  const isActive = (path) => {
-    return location.pathname === path ? "bg-green-800" : "";
-  };
-
   const handleLogout = () => {
     localStorage.removeItem("user");
-    setUser(null);
-    navigate("/");
+    localStorage.removeItem("token");
+    window.location.href = "/login";
   };
 
-  if (!user || user.role !== "PEMBELI") {
-    return null;
-  }
+  const menuClass =
+    "flex items-center space-x-1 px-3 py-2 rounded-lg text-gray-600 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200";
 
   return (
-    <div className="bg-green-700 text-white w-64 min-h-screen fixed left-0 top-0 z-40">
-      <div className="p-4 border-b border-green-800">
-        <h2 className="text-xl font-bold">Dashboard Pembeli</h2>
-        <p className="text-sm mt-1">Selamat datang, {user.nama}</p>
+    <nav className="bg-white shadow-sm sticky top-0 z-50">
+      {/* Top banner */}
+      <div className="bg-gradient-to-r from-green-500 to-blue-600 text-white py-1.5 px-4">
+        <div className="max-w-7xl mx-auto flex justify-between items-center text-xs">
+          <div className="flex space-x-4">
+            <a href="#" className="hover:underline">
+              Tentang Kami
+            </a>
+            <a href="#" className="hover:underline">
+              Bantuan
+            </a>
+            <a href="#" className="hover:underline">
+              FAQ
+            </a>
+          </div>
+          <div className="flex space-x-4">
+            <a href="#" className="hover:underline">
+              Download App
+            </a>
+            <a href="#" className="hover:underline">
+              Hubungi Kami
+            </a>
+          </div>
+        </div>
       </div>
 
-      <nav className="mt-6">
-        <ul className="space-y-2 px-4">
-          <li>
-            <Link
-              to="/dashboard-pembeli"
-              className={`flex items-center p-3 rounded-md hover:bg-green-800 ${isActive(
-                "/dashboard-pembeli"
-              )}`}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-3"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-              </svg>
-              Dashboard
+      {/* Main navbar */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16">
+          <div className="flex items-center">
+            {/* Logo */}
+            <Link to="/" className="flex-shrink-0 flex items-center">
+              <div className="bg-gradient-to-r from-green-500 to-green-600 p-2 rounded-lg shadow-lg">
+                <FaLeaf className="text-white text-xl" />
+              </div>
+              <span className="ml-2 text-lg font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+                AgriMarket
+              </span>
             </Link>
-          </li>
-          <li>
-            <Link
-              to="/produk"
-              className={`flex items-center p-3 rounded-md hover:bg-green-800 ${isActive(
-                "/produk"
-              )}`}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-3"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z"
-                  clipRule="evenodd"
+
+            {/* Search bar */}
+            <div className="ml-6 flex-1 max-w-lg">
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <FaSearch className="h-4 w-4 text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:bg-white"
+                  placeholder="Cari produk..."
                 />
-              </svg>
-              Produk
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop menu */}
+          <div className="hidden md:flex items-center space-x-2">
+            <Link to="/produk" className={menuClass}>
+              <FaHome className="text-lg" />
+              <span>Produk</span>
             </Link>
-          </li>
-          <li>
-            <Link
-              to="/keranjang"
-              className={`flex items-center p-3 rounded-md hover:bg-green-800 ${isActive(
-                "/keranjang"
-              )}`}
-            >
+
+            <Link to="/dashboard-pembeli" className={menuClass}>
+              <FaTachometerAlt className="text-lg" />
+              <span>Dashboard</span>
+            </Link>
+
+            <Link to="/keranjang" className={`${menuClass} relative`}>
+              <FaShoppingCart className="text-lg" />
+              <span>Keranjang</span>
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center animate-pulse">
+                3
+              </span>
+            </Link>
+
+            <Link to="/chat" className={menuClass}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-3"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
-              </svg>
-              Keranjang
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/daftar-pesanan-pembeli"
-              className={`flex items-center p-3 rounded-md hover:bg-green-800 ${isActive(
-                "/daftar-pesanan-pembeli"
-              )}`}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-3"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
-                <path
-                  fillRule="evenodd"
-                  d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              Pesanan Saya
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/chat"
-              className={`flex items-center p-3 rounded-md hover:bg-green-800 ${isActive(
-                "/chat"
-              )}`}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-3"
+                className="h-5 w-5"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -138,51 +124,221 @@ export default function PembeliSidebar() {
                   clipRule="evenodd"
                 />
               </svg>
-              Chat
+              <span>Chat</span>
             </Link>
-          </li>
-          <li className="mt-8">
-            <Link
-              to="/"
-              className="flex items-center p-3 rounded-md hover:bg-green-800 text-red-300"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-3"
-                viewBox="0 0 20 20"
-                fill="currentColor"
+
+            {/* Notifications */}
+            <div className="relative">
+              <button
+                onClick={() => setShowNotifications(!showNotifications)}
+                className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 relative"
               >
-                <path
-                  fillRule="evenodd"
-                  d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              Kembali ke Beranda
+                <FaBell className="text-lg" />
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center animate-pulse">
+                  2
+                </span>
+              </button>
+
+              {/* Notifications Dropdown */}
+              {showNotifications && (
+                <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
+                  <div className="px-4 py-3 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-green-50">
+                    <h3 className="text-sm font-semibold text-gray-900 flex items-center">
+                      <FaBell className="mr-2 text-blue-500" />
+                      Notifikasi
+                    </h3>
+                  </div>
+                  <div className="max-h-64 overflow-y-auto">
+                    <div className="px-4 py-3 hover:bg-blue-50 cursor-pointer border-l-4 border-transparent hover:border-blue-400 transition-all duration-200">
+                      <p className="text-sm text-gray-800 font-medium">
+                        Pesanan baru diterima
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        2 menit yang lalu
+                      </p>
+                    </div>
+                    <div className="px-4 py-3 hover:bg-green-50 cursor-pointer border-l-4 border-transparent hover:border-green-400 transition-all duration-200">
+                      <p className="text-sm text-gray-800 font-medium">
+                        Produk Anda telah disetujui
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        1 jam yang lalu
+                      </p>
+                    </div>
+                  </div>
+                  <div className="px-4 py-3 border-t border-gray-200 bg-gray-50">
+                    <button className="text-sm text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200">
+                      Lihat semua notifikasi →
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* User Profile Dropdown */}
+            {user && (
+              <div className="relative">
+                <button
+                  onClick={() => setShowUserDropdown(!showUserDropdown)}
+                  className="flex items-center space-x-2 p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                >
+                  <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-blue-600 rounded-full flex items-center justify-center shadow-md">
+                    <FaUser className="text-white text-sm" />
+                  </div>
+                  <span className="text-sm font-medium">{user.nama}</span>
+                  <svg
+                    className={`w-4 h-4 transition-transform duration-200 ${
+                      showUserDropdown ? "rotate-180" : ""
+                    }`}
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+
+                {/* User Dropdown Menu */}
+                {showUserDropdown && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
+                    <div className="px-4 py-3 border-b border-gray-200 bg-gradient-to-r from-green-50 to-blue-50">
+                      <p className="text-sm font-medium text-gray-900">
+                        {user.nama}
+                      </p>
+                      <p className="text-xs text-gray-500 bg-blue-100 text-blue-700 px-2 py-1 rounded-full inline-block mt-1">
+                        {user.role}
+                      </p>
+                    </div>
+                    <Link
+                      to="/profile"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all duration-200"
+                      onClick={() => setShowUserDropdown(false)}
+                    >
+                      <FaUser className="inline mr-2" />
+                      Profile
+                    </Link>
+                    <Link
+                      to="/daftar-pesanan-pembeli"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all duration-200"
+                      onClick={() => setShowUserDropdown(false)}
+                    >
+                      <FaHistory className="inline mr-2" />
+                      Daftar Pesanan
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-all duration-200"
+                    >
+                      <FaSignOutAlt className="inline mr-2" />
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Mobile menu button */}
+          <div className="md:hidden flex items-center space-x-2">
+            {user && (
+              <button className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 relative">
+                <FaBell className="text-lg" />
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center animate-pulse">
+                  2
+                </span>
+              </button>
+            )}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              type="button"
+              className="inline-flex items-center justify-center p-2 rounded-lg text-gray-600 hover:text-blue-600 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200"
+              aria-controls="mobile-menu"
+              aria-expanded={isOpen}
+            >
+              <span className="sr-only">Open main menu</span>
+              {!isOpen ? (
+                <svg
+                  className="block h-6 w-6"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  className="block h-6 w-6"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile menu, show/hide based on menu state */}
+      {isOpen && (
+        <div className="md:hidden" id="mobile-menu">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white shadow-lg rounded-b-lg">
+            <Link
+              to="/produk"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+            >
+              <FaHome className="inline-block mr-2" />
+              Produk
             </Link>
-          </li>
-          <li>
+            <Link
+              to="/dashboard-pembeli"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+            >
+              <FaTachometerAlt className="inline-block mr-2" />
+              Dashboard
+            </Link>
+            <Link
+              to="/keranjang"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+            >
+              <FaShoppingCart className="inline-block mr-2" />
+              Keranjang
+            </Link>
+            <Link
+              to="/profile"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+            >
+              <FaUser className="inline-block mr-2" />
+              Profile
+            </Link>
             <button
               onClick={handleLogout}
-              className="w-full flex items-center p-3 rounded-md hover:bg-green-800 text-red-300"
+              className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-600 hover:bg-red-50"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-3"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              <FaSignOutAlt className="inline-block mr-2" />
               Logout
             </button>
-          </li>
-        </ul>
-      </nav>
-    </div>
+          </div>
+        </div>
+      )}
+    </nav>
   );
 }

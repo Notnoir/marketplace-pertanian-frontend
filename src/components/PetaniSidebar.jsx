@@ -1,5 +1,15 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  FaHome,
+  FaList,
+  FaPlus,
+  FaShoppingBag,
+  FaChartLine,
+  FaArrowLeft,
+  FaSignOutAlt,
+  FaComments,
+} from "react-icons/fa";
 
 export default function PetaniSidebar() {
   const [user, setUser] = useState(null);
@@ -16,7 +26,9 @@ export default function PetaniSidebar() {
 
   // Fungsi untuk menentukan apakah menu aktif
   const isActive = (path) => {
-    return location.pathname === path ? "bg-green-800" : "";
+    return location.pathname === path
+      ? "bg-blue-100 text-blue-600 border-l-4 border-blue-600"
+      : "";
   };
 
   const handleLogout = () => {
@@ -30,10 +42,12 @@ export default function PetaniSidebar() {
   }
 
   return (
-    <div className="bg-green-700 text-white w-64 min-h-screen fixed left-0 top-0 z-40">
-      <div className="p-4 border-b border-green-800">
-        <h2 className="text-xl font-bold">Petani Dashboard</h2>
-        <p className="text-sm mt-1">Selamat datang, {user.nama}</p>
+    <div className="bg-white text-gray-700 w-64 min-h-screen fixed left-0 top-0 z-40 shadow-lg border-r border-gray-200">
+      <div className="p-4 border-b border-gray-200 bg-gradient-to-r from-green-500 to-blue-600">
+        <h2 className="text-xl font-bold text-white">Petani Dashboard</h2>
+        <p className="text-sm mt-1 text-white opacity-90">
+          Selamat datang, {user.nama}
+        </p>
       </div>
 
       <nav className="mt-6">
@@ -41,167 +55,86 @@ export default function PetaniSidebar() {
           <li>
             <Link
               to="/dashboard-petani"
-              className={`flex items-center p-3 rounded-md hover:bg-green-800 ${isActive(
+              className={`flex items-center p-3 rounded-md hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 ${isActive(
                 "/dashboard-petani"
               )}`}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-3"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-              </svg>
+              <FaHome className="h-5 w-5 mr-3" />
               Dashboard
             </Link>
           </li>
           <li>
             <Link
               to="/daftar-produk"
-              className={`flex items-center p-3 rounded-md hover:bg-green-800 ${isActive(
+              className={`flex items-center p-3 rounded-md hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 ${isActive(
                 "/daftar-produk"
               )}`}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-3"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
-              </svg>
+              <FaList className="h-5 w-5 mr-3" />
               Daftar Produk
             </Link>
           </li>
           <li>
             <Link
               to="/tambah-produk"
-              className={`flex items-center p-3 rounded-md hover:bg-green-800 ${isActive(
+              className={`flex items-center p-3 rounded-md hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 ${isActive(
                 "/tambah-produk"
               )}`}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-3"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              <FaPlus className="h-5 w-5 mr-3" />
               Tambah Produk
             </Link>
           </li>
           <li>
             <Link
               to="/daftar-pesanan"
-              className={`flex items-center p-3 rounded-md hover:bg-green-800 ${isActive(
+              className={`flex items-center p-3 rounded-md hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 ${isActive(
                 "/daftar-pesanan"
               )}`}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-3"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
-                <path
-                  fillRule="evenodd"
-                  d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              <FaShoppingBag className="h-5 w-5 mr-3" />
               Daftar Pesanan
             </Link>
           </li>
           <li>
             <Link
               to="/laporan-penjualan"
-              className={`flex items-center p-3 rounded-md hover:bg-green-800 ${isActive(
+              className={`flex items-center p-3 rounded-md hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 ${isActive(
                 "/laporan-penjualan"
               )}`}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-3"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              <FaChartLine className="h-5 w-5 mr-3" />
               Laporan Penjualan
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/chat"
+              className={`flex items-center p-3 rounded-md hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 ${isActive(
+                "/chat"
+              )}`}
+            >
+              <FaComments className="h-5 w-5 mr-3" />
+              Chat
             </Link>
           </li>
           <li className="mt-8">
             <Link
               to="/"
-              className="flex items-center p-3 rounded-md hover:bg-green-800 text-red-300"
+              className="flex items-center p-3 rounded-md hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 text-gray-600"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-3"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              <FaArrowLeft className="h-5 w-5 mr-3" />
               Kembali ke Beranda
             </Link>
           </li>
           <li>
             <button
               onClick={handleLogout}
-              className="w-full flex items-center p-3 rounded-md hover:bg-green-800 text-red-300"
+              className="w-full flex items-center p-3 rounded-md hover:bg-red-50 hover:text-red-600 transition-all duration-200 text-gray-600"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-3"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              <FaSignOutAlt className="h-5 w-5 mr-3" />
               Logout
             </button>
-          </li>
-          <li>
-            <Link
-              to="/chat"
-              className={`flex items-center p-3 rounded-md hover:bg-green-800 ${isActive(
-                "/chat"
-              )}`}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-3"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              Chat
-            </Link>
           </li>
         </ul>
       </nav>

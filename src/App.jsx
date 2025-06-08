@@ -117,13 +117,7 @@ function AppLayout() {
       ) : (
         <Navbar />
       )}
-      <div
-        className={
-          showAdminSidebar || showPetaniSidebar || showPembeliSidebar
-            ? "pl-64"
-            : ""
-        }
-      >
+      <div className={showAdminSidebar || showPetaniSidebar ? "pl-64" : ""}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/produk" element={<ProdukList />} />
