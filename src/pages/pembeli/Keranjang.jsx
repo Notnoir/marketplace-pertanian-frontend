@@ -210,243 +210,420 @@ export default function Keranjang() {
   };
 
   if (!user) {
-    return <div className="text-center p-10">Loading...</div>;
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold text-green-800 mb-6">
-        Keranjang Belanja
-      </h1>
-
-      {cart.length === 0 ? (
-        <div className="bg-white p-6 rounded-lg shadow-md text-center">
-          <p className="text-lg text-gray-600 mb-4">
-            Keranjang belanja Anda kosong
-          </p>
-          <Link
-            to="/produk"
-            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-          >
-            Belanja Sekarang
-          </Link>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <h1 className="text-2xl font-bold text-gray-900">Keranjang</h1>
+            <div className="text-sm text-gray-500">{cart.length} produk</div>
+          </div>
         </div>
-      ) : (
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <div className="overflow-x-auto">
-            <table className="min-w-full bg-white">
-              <thead>
-                <tr>
-                  <th className="py-2 px-4 border-b">Produk</th>
-                  <th className="py-2 px-4 border-b">Harga</th>
-                  <th className="py-2 px-4 border-b">Jumlah</th>
-                  <th className="py-2 px-4 border-b">Subtotal</th>
-                  <th className="py-2 px-4 border-b">Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                {cart.map((item, index) => (
-                  <tr key={index}>
-                    <td className="py-2 px-4 border-b">
-                      <div className="flex items-center">
-                        {item.foto_url ? (
-                          <img
-                            src={item.foto_url}
-                            alt={item.nama_produk}
-                            className="h-16 w-16 object-cover mr-4"
-                          />
-                        ) : (
-                          <div className="h-16 w-16 bg-gray-200 flex items-center justify-center text-gray-400 mr-4">
-                            No Image
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {cart.length === 0 ? (
+          <div className="bg-white rounded-lg shadow-sm p-12 text-center">
+            <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+              <svg
+                className="w-12 h-12 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1}
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m4.5-5a2 2 0 100 4 2 2 0 000-4zm7 0a2 2 0 100 4 2 2 0 000-4z"
+                />
+              </svg>
+            </div>
+            <h3 className="text-xl font-medium text-gray-900 mb-2">
+              Wah, keranjang belanja Anda kosong
+            </h3>
+            <p className="text-gray-500 mb-6">
+              Yuk, isi dengan barang-barang impianmu!
+            </p>
+            <Link
+              to="/produk"
+              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-green-600 hover:bg-green-700 transition-colors duration-200"
+            >
+              Mulai Belanja
+            </Link>
+          </div>
+        ) : (
+          <div className="flex flex-col lg:flex-row gap-6">
+            {/* Cart Items */}
+            <div className="flex-1">
+              <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+                <div className="p-4 border-b bg-gray-50">
+                  <h2 className="font-semibold text-gray-900">
+                    Produk Pilihan
+                  </h2>
+                </div>
+
+                <div className="divide-y divide-gray-200">
+                  {cart.map((item, index) => (
+                    <div
+                      key={index}
+                      className="p-6 hover:bg-gray-50 transition-colors duration-150"
+                    >
+                      <div className="flex items-start space-x-4">
+                        {/* Product Image */}
+                        <div className="flex-shrink-0">
+                          {item.foto_url ? (
+                            <img
+                              src={item.foto_url}
+                              alt={item.nama_produk}
+                              className="h-20 w-20 object-cover rounded-lg border"
+                            />
+                          ) : (
+                            <div className="h-20 w-20 bg-gray-200 rounded-lg border flex items-center justify-center">
+                              <svg
+                                className="w-8 h-8 text-gray-400"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={1}
+                                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                />
+                              </svg>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Product Details */}
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-base font-medium text-gray-900 mb-1">
+                            {item.nama_produk}
+                          </h3>
+                          <p className="text-lg font-bold text-gray-900">
+                            Rp {Number(item.harga).toLocaleString()}
+                          </p>
+                        </div>
+
+                        {/* Quantity Controls */}
+                        <div className="flex items-center space-x-3">
+                          <div className="flex items-center border border-gray-200 rounded-lg">
+                            <button
+                              onClick={() =>
+                                handleQuantityChange(index, item.jumlah - 1)
+                              }
+                              className="p-2 hover:bg-gray-50 text-gray-500 hover:text-gray-700 transition-colors duration-150"
+                              disabled={item.jumlah <= 1}
+                            >
+                              <svg
+                                className="w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M20 12H4"
+                                />
+                              </svg>
+                            </button>
+                            <input
+                              type="number"
+                              min="1"
+                              value={item.jumlah}
+                              onChange={(e) =>
+                                handleQuantityChange(
+                                  index,
+                                  parseInt(e.target.value) || 1
+                                )
+                              }
+                              className="w-12 text-center py-2 border-0 focus:outline-none focus:ring-0"
+                            />
+                            <button
+                              onClick={() =>
+                                handleQuantityChange(index, item.jumlah + 1)
+                              }
+                              className="p-2 hover:bg-gray-50 text-gray-500 hover:text-gray-700 transition-colors duration-150"
+                            >
+                              <svg
+                                className="w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                                />
+                              </svg>
+                            </button>
                           </div>
-                        )}
-                        <span>{item.nama_produk}</span>
-                      </div>
-                    </td>
-                    <td className="py-2 px-4 border-b text-center">
-                      Rp {Number(item.harga).toLocaleString()}
-                    </td>
-                    <td className="py-2 px-4 border-b">
-                      <div className="flex items-center justify-center">
-                        <button
-                          onClick={() =>
-                            handleQuantityChange(index, item.jumlah - 1)
-                          }
-                          className="bg-gray-200 px-2 py-1 rounded-l"
-                        >
-                          -
-                        </button>
-                        <input
-                          type="number"
-                          min="1"
-                          value={item.jumlah}
-                          onChange={(e) =>
-                            handleQuantityChange(
-                              index,
-                              parseInt(e.target.value) || 1
-                            )
-                          }
-                          className="w-12 text-center border-t border-b py-1"
-                        />
-                        <button
-                          onClick={() =>
-                            handleQuantityChange(index, item.jumlah + 1)
-                          }
-                          className="bg-gray-200 px-2 py-1 rounded-r"
-                        >
-                          +
-                        </button>
-                      </div>
-                    </td>
-                    <td className="py-2 px-4 border-b text-center">
-                      Rp {Number(item.harga * item.jumlah).toLocaleString()}
-                    </td>
-                    <td className="py-2 px-4 border-b text-center">
-                      <button
-                        onClick={() => handleRemoveItem(index)}
-                        className="text-red-500 hover:text-red-700"
-                      >
-                        Hapus
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
 
-          <div className="mt-6 flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-4 md:mb-0">
-              <Link
-                to="/produk"
-                className="text-green-600 hover:text-green-800"
-              >
-                ← Lanjutkan Belanja
-              </Link>
+                          {/* Remove Button */}
+                          <button
+                            onClick={() => handleRemoveItem(index)}
+                            className="p-2 text-gray-400 hover:text-red-500 transition-colors duration-150"
+                            title="Hapus item"
+                          >
+                            <svg
+                              className="w-5 h-5"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Subtotal */}
+                      <div className="mt-4 flex justify-between items-center text-sm">
+                        <span className="text-gray-500">
+                          Subtotal untuk produk ini
+                        </span>
+                        <span className="font-semibold text-gray-900">
+                          Rp {Number(item.harga * item.jumlah).toLocaleString()}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
-            <div className="text-right">
-              <p className="text-xl font-bold mb-4">
-                Subtotal: Rp {Number(calculateSubTotal()).toLocaleString()}
-              </p>
-              <button
-                onClick={handleCheckout}
-                className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700"
-              >
-                Checkout
-              </button>
+
+            {/* Order Summary */}
+            <div className="lg:w-80">
+              <div className="bg-white rounded-lg shadow-sm p-6 sticky top-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  Ringkasan belanja
+                </h3>
+
+                <div className="space-y-3 mb-6">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">
+                      Total Harga ({cart.length} barang)
+                    </span>
+                    <span className="font-medium">
+                      Rp {Number(calculateSubTotal()).toLocaleString()}
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">Total Ongkos Kirim</span>
+                    <span className="font-medium text-green-600">
+                      Rp {paymentData.ongkosKirim.toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+
+                <hr className="border-gray-200 mb-4" />
+
+                <div className="flex justify-between items-center mb-6">
+                  <span className="text-lg font-semibold text-gray-900">
+                    Total Tagihan
+                  </span>
+                  <span className="text-xl font-bold text-orange-500">
+                    Rp {Number(calculateTotal()).toLocaleString()}
+                  </span>
+                </div>
+
+                <button
+                  onClick={handleCheckout}
+                  className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 shadow-sm"
+                >
+                  Beli ({cart.length})
+                </button>
+
+                <div className="mt-4 text-center">
+                  <Link
+                    to="/produk"
+                    className="text-sm text-green-600 hover:text-green-700 font-medium"
+                  >
+                    Lanjutkan Belanja
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
-      {/* Modal Pembayaran */}
+      {/* Payment Modal */}
       {showPaymentModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
-            <h2 className="text-2xl font-bold text-green-800 mb-4">
-              Konfirmasi Pembayaran
-            </h2>
-
-            {/* Ringkasan Pesanan */}
-            <div className="mb-4 p-4 bg-gray-50 rounded">
-              <h3 className="font-semibold mb-2">Ringkasan Pesanan:</h3>
-              <div className="flex justify-between text-sm">
-                <span>Subtotal Produk:</span>
-                <span>Rp {calculateSubTotal().toLocaleString()}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span>Ongkos Kirim:</span>
-                <span>Rp {paymentData.ongkosKirim.toLocaleString()}</span>
-              </div>
-              <hr className="my-2" />
-              <div className="flex justify-between font-bold">
-                <span>Total Pembayaran:</span>
-                <span>Rp {calculateTotal().toLocaleString()}</span>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+            {/* Modal Header */}
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-bold text-gray-900">
+                  Pilih Pembayaran
+                </h2>
+                <button
+                  onClick={closeModal}
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-150"
+                >
+                  <svg
+                    className="w-5 h-5 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
               </div>
             </div>
 
-            {/* Pilihan Jenis Pembayaran */}
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Jenis Pembayaran *
-              </label>
-              <select
-                value={paymentData.jenisePembayaran}
-                onChange={(e) =>
-                  handlePaymentDataChange("jenisePembayaran", e.target.value)
-                }
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-              >
-                <option value="">-- Pilih Jenis Pembayaran --</option>
-                {jenisePembayaranOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Pilihan Jenis Pengiriman */}
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Jenis Pengiriman *
-              </label>
-              <select
-                value={paymentData.jenisePengiriman}
-                onChange={(e) =>
-                  handlePaymentDataChange("jenisePengiriman", e.target.value)
-                }
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-              >
-                <option value="">-- Pilih Jenis Pengiriman --</option>
-                {jenisePengirimanOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label} - Rp {option.ongkos.toLocaleString()}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Input Nominal Pembayaran */}
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Nominal Pembayaran *
-              </label>
-              <input
-                type="number"
-                value={paymentData.nominalPembayaran}
-                onChange={(e) =>
-                  handlePaymentDataChange("nominalPembayaran", e.target.value)
-                }
-                placeholder="Masukkan nominal pembayaran"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-              <p className="text-xs text-gray-500 mt-1">
-                Minimal: Rp {calculateTotal().toLocaleString()}
-              </p>
-            </div>
-
-            {/* Error Message */}
-            {paymentError && (
-              <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-                {paymentError}
+            <div className="p-6">
+              {/* Order Summary */}
+              <div className="bg-gray-50 rounded-lg p-4 mb-6">
+                <h3 className="font-semibold text-gray-900 mb-3">
+                  Ringkasan Pesanan
+                </h3>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Subtotal Produk</span>
+                    <span>Rp {calculateSubTotal().toLocaleString()}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Ongkos Kirim</span>
+                    <span>Rp {paymentData.ongkosKirim.toLocaleString()}</span>
+                  </div>
+                  <hr className="border-gray-200 my-2" />
+                  <div className="flex justify-between font-bold text-base">
+                    <span>Total Pembayaran</span>
+                    <span className="text-orange-500">
+                      Rp {calculateTotal().toLocaleString()}
+                    </span>
+                  </div>
+                </div>
               </div>
-            )}
 
-            {/* Tombol Aksi */}
-            <div className="flex space-x-3">
-              <button
-                onClick={closeModal}
-                className="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
-              >
-                Batal
-              </button>
-              <button
-                onClick={handleConfirmPayment}
-                className="flex-1 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-              >
-                Konfirmasi Pembayaran
-              </button>
+              {/* Payment Method */}
+              <div className="mb-6">
+                <label className="block text-sm font-semibold text-gray-900 mb-3">
+                  Metode Pembayaran
+                </label>
+                <select
+                  value={paymentData.jenisePembayaran}
+                  onChange={(e) =>
+                    handlePaymentDataChange("jenisePembayaran", e.target.value)
+                  }
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                >
+                  <option value="">Pilih metode pembayaran</option>
+                  {jenisePembayaranOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Shipping Method */}
+              <div className="mb-6">
+                <label className="block text-sm font-semibold text-gray-900 mb-3">
+                  Pilihan Pengiriman
+                </label>
+                <select
+                  value={paymentData.jenisePengiriman}
+                  onChange={(e) =>
+                    handlePaymentDataChange("jenisePengiriman", e.target.value)
+                  }
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                >
+                  <option value="">Pilih jenis pengiriman</option>
+                  {jenisePengirimanOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label} - Rp {option.ongkos.toLocaleString()}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Payment Amount */}
+              <div className="mb-6">
+                <label className="block text-sm font-semibold text-gray-900 mb-3">
+                  Nominal Pembayaran
+                </label>
+                <input
+                  type="number"
+                  value={paymentData.nominalPembayaran}
+                  onChange={(e) =>
+                    handlePaymentDataChange("nominalPembayaran", e.target.value)
+                  }
+                  placeholder="Masukkan nominal pembayaran"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                />
+                <p className="text-xs text-gray-500 mt-2">
+                  Minimal: Rp {calculateTotal().toLocaleString()}
+                </p>
+              </div>
+
+              {/* Error Message */}
+              {paymentError && (
+                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <div className="flex">
+                    <svg
+                      className="w-5 h-5 text-red-400 mr-2 mt-0.5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <p className="text-sm text-red-700">{paymentError}</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Action Buttons */}
+              <div className="flex space-x-3">
+                <button
+                  onClick={closeModal}
+                  className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                >
+                  Batal
+                </button>
+                <button
+                  onClick={handleConfirmPayment}
+                  className="flex-1 px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-200"
+                >
+                  Bayar Sekarang
+                </button>
+              </div>
             </div>
           </div>
         </div>

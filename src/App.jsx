@@ -31,6 +31,7 @@ import DaftarProduk from "./pages/petani/DaftarProduk";
 import DaftarPesananPembeli from "./pages/pembeli/DaftarPesananPembeli";
 import DetailPesananPembeli from "./pages/pembeli/DetailPesananPembeli";
 import Chat from "./pages/Chat";
+import ProfilePembeli from "./pages/pembeli/ProfilePembeli";
 
 // Komponen wrapper untuk mendeteksi rute dan menampilkan layout yang sesuai
 function AppLayout() {
@@ -161,6 +162,8 @@ function AppLayout() {
           />
           {/* Tambahkan route untuk Chat di sini */}
           <Route path="/chat" element={<Chat />} />
+          {/* Tambahkan route untuk Profile Pembeli */}
+          <Route path="/profile" element={<ProfilePembeli />} />
         </Routes>
       </div>
     </>

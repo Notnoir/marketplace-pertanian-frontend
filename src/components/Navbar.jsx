@@ -25,6 +25,7 @@ export default function Navbar() {
   const [user, setUser] = useState(null);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,6 +33,21 @@ export default function Navbar() {
     if (userData) {
       setUser(JSON.parse(userData));
     }
+
+    // Listen for storage events (for when user logs in/out in another tab)
+    const handleStorageEvent = () => {
+      const userData = localStorage.getItem("user");
+      if (userData) {
+        setUser(JSON.parse(userData));
+      } else {
+        setUser(null);
+      }
+    };
+
+    window.addEventListener("storage-event", handleStorageEvent);
+    return () => {
+      window.removeEventListener("storage-event", handleStorageEvent);
+    };
   }, []);
 
   const handleLogout = () => {
@@ -39,6 +55,13 @@ export default function Navbar() {
     setUser(null);
     navigate("/");
     setShowUserDropdown(false);
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchTerm.trim()) {
+      navigate(`/produk?search=${encodeURIComponent(searchTerm)}`);
+    }
   };
 
   const menuClass =
@@ -97,7 +120,7 @@ export default function Navbar() {
 
             {/* Search Bar - Desktop */}
             <div className="hidden md:flex flex-1 max-w-md mx-8">
-              <div className="relative w-full">
+              <form onSubmit={handleSearch} className="relative w-full">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <FaSearch className="h-4 w-4 text-gray-400" />
                 </div>
@@ -105,8 +128,19 @@ export default function Navbar() {
                   type="text"
                   className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:bg-white"
                   placeholder="Cari produk..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                 />
-              </div>
+                <button
+                  type="submit"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  aria-label="Search"
+                >
+                  <span className="text-xs text-blue-600 hover:text-blue-800 font-medium">
+                    Cari
+                  </span>
+                </button>
+              </form>
             </div>
 
             {/* Desktop menu */}
