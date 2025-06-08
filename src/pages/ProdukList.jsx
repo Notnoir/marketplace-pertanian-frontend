@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   FaShoppingCart,
   FaEye,
@@ -17,13 +17,29 @@ export default function ProdukList() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
+    // Cek apakah ada query parameter untuk pencarian
+    const queryParams = new URLSearchParams(location.search);
+    const searchQuery = queryParams.get("search");
+
+    if (searchQuery) {
+      setSearchTerm(searchQuery);
+    }
+
     API.get("/produk")
       .then((res) => setProduk(res.data))
       .catch((err) => alert("Gagal load produk: " + err.message))
       .finally(() => setLoading(false));
-  }, []);
+  }, [location.search]);
+
+  // Fungsi untuk melakukan pencarian
+  const handleSearch = (e) => {
+    e.preventDefault();
+    // Update URL dengan query parameter
+    navigate(`/produk?search=${encodeURIComponent(searchTerm)}`);
+  };
 
   const filteredProduk = produk.filter((p) =>
     p.nama_produk.toLowerCase().includes(searchTerm.toLowerCase())
@@ -115,16 +131,27 @@ export default function ProdukList() {
 
           {/* Search Bar */}
           <div className="relative max-w-md w-full sm:w-auto">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FaSearch className="h-4 w-4 text-gray-400" />
-            </div>
-            <input
-              type="text"
-              placeholder="Cari produk..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
-            />
+            <form onSubmit={handleSearch}>
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <FaSearch className="h-4 w-4 text-gray-400" />
+              </div>
+              <input
+                type="text"
+                placeholder="Cari produk..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+              />
+              <button
+                type="submit"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                aria-label="Search"
+              >
+                <span className="text-xs text-blue-600 hover:text-blue-800 font-medium">
+                  Cari
+                </span>
+              </button>
+            </form>
           </div>
         </div>
       </div>

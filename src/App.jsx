@@ -97,6 +97,11 @@ function AppLayout() {
     return pembeliRoutes.some((route) => location.pathname.startsWith(route));
   };
 
+  // Tambahkan fungsi untuk mengecek apakah rute saat ini adalah login atau register
+  const isAuthRoute = () => {
+    return location.pathname === "/login" || location.pathname === "/register";
+  };
+
   const isAdmin = user && user.role === "ADMIN";
   const showAdminSidebar = isAdmin && isAdminRoute();
 
@@ -108,14 +113,19 @@ function AppLayout() {
 
   return (
     <>
-      {showAdminSidebar ? (
-        <AdminSidebar />
-      ) : showPetaniSidebar ? (
-        <PetaniSidebar />
-      ) : showPembeliSidebar ? (
-        <PembeliSidebar />
-      ) : (
-        <Navbar />
+      {/* Jangan tampilkan navbar atau sidebar jika berada di halaman login atau register */}
+      {!isAuthRoute() && (
+        <>
+          {showAdminSidebar ? (
+            <AdminSidebar />
+          ) : showPetaniSidebar ? (
+            <PetaniSidebar />
+          ) : showPembeliSidebar ? (
+            <PembeliSidebar />
+          ) : (
+            <Navbar />
+          )}
+        </>
       )}
       <div className={showAdminSidebar || showPetaniSidebar ? "pl-64" : ""}>
         <Routes>

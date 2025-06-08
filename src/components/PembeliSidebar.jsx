@@ -4,6 +4,7 @@ import {
   FaHome,
   FaLeaf,
   FaShoppingCart,
+  FaBoxOpen,
   FaHistory,
   FaUser,
   FaSignOutAlt,
@@ -29,7 +30,7 @@ export default function PembeliSidebar() {
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    window.location.href = "/login";
+    window.location.href = "/";
   };
 
   const menuClass =
@@ -38,7 +39,7 @@ export default function PembeliSidebar() {
   return (
     <nav className="bg-white shadow-sm sticky top-0 z-50">
       {/* Top banner */}
-      <div className="bg-gradient-to-r from-green-500 to-blue-600 text-white py-1.5 px-4">
+      <div className="bg-gradient-to-r from-gray-50 to-blue-50 border-b border-gray-200 py-2 px-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center text-xs">
           <div className="flex space-x-4">
             <a href="#" className="hover:underline">
@@ -71,7 +72,7 @@ export default function PembeliSidebar() {
               <div className="bg-gradient-to-r from-green-500 to-green-600 p-2 rounded-lg shadow-lg">
                 <FaLeaf className="text-white text-xl" />
               </div>
-              <span className="ml-2 text-lg font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+              <span className="ml-2 text-lg font-bold bg-gradient-to-r from-green-600 to-green-700 bg-clip-text text-transparent">
                 AgriMarket
               </span>
             </Link>
@@ -93,14 +94,14 @@ export default function PembeliSidebar() {
 
           {/* Desktop menu */}
           <div className="hidden md:flex items-center space-x-2">
-            <Link to="/produk" className={menuClass}>
+            <Link to="/dashboard-pembeli" className={menuClass}>
               <FaHome className="text-lg" />
-              <span>Produk</span>
+              <span>Dashboard</span>
             </Link>
 
-            <Link to="/dashboard-pembeli" className={menuClass}>
-              <FaTachometerAlt className="text-lg" />
-              <span>Dashboard</span>
+            <Link to="/produk" className={menuClass}>
+              <FaBoxOpen className="text-lg" />
+              <span>Produk</span>
             </Link>
 
             <Link to="/keranjang" className={`${menuClass} relative`}>
