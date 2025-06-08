@@ -1,6 +1,16 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import API from "../../services/api";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
 export default function LaporanPenjualan() {
   const [transactions, setTransactions] = useState([]);
@@ -15,6 +25,7 @@ export default function LaporanPenjualan() {
     totalProdukTerjual: 0,
     totalPendapatan: 0,
   });
+  const [chartData, setChartData] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,11 +57,12 @@ export default function LaporanPenjualan() {
       try {
         const response = await API.get(`/transaksi/petani/${user.id}`);
         const completedTransactions = response.data.filter(
-          (t) => t.status === "SELESAI"
+          (t) => t.transaksi?.status === "SELESAI" || t.status === "SELESAI"
         );
         setTransactions(completedTransactions);
         setFilteredTransactions(completedTransactions);
         calculateSummary(completedTransactions);
+        prepareChartData(completedTransactions);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching transactions:", error);
@@ -68,18 +80,58 @@ export default function LaporanPenjualan() {
     });
   };
 
+  const prepareChartData = (data) => {
+    // Membuat objek untuk menyimpan total penjualan per hari
+    const dailySales = {};
+
+    // Mengelompokkan transaksi berdasarkan tanggal
+    data.forEach((transaction) => {
+      const date = new Date(
+        transaction.tanggal || transaction.transaksi?.tanggal
+      );
+      const dateStr = date.toISOString().split("T")[0];
+
+      if (!dailySales[dateStr]) {
+        dailySales[dateStr] = {
+          date: dateStr,
+          totalPenjualan: 0,
+          totalPendapatan: 0,
+        };
+      }
+
+      // Menambahkan jumlah penjualan
+      dailySales[dateStr].totalPenjualan += 1;
+
+      // Menambahkan pendapatan
+      const details = transaction.detail_transaksis || [transaction];
+      details.forEach((detail) => {
+        dailySales[dateStr].totalPendapatan += parseFloat(detail.subtotal || 0);
+      });
+    });
+
+    // Mengubah objek menjadi array dan mengurutkan berdasarkan tanggal
+    const chartDataArray = Object.values(dailySales).sort((a, b) => {
+      return new Date(a.date) - new Date(b.date);
+    });
+
+    setChartData(chartDataArray);
+  };
+
   const applyFilter = () => {
     const start = new Date(dateRange.startDate);
     const end = new Date(dateRange.endDate);
     end.setHours(23, 59, 59); // Set to end of day
 
     const filtered = transactions.filter((transaction) => {
-      const transactionDate = new Date(transaction.tanggal);
+      const transactionDate = new Date(
+        transaction.tanggal || transaction.transaksi?.tanggal
+      );
       return transactionDate >= start && transactionDate <= end;
     });
 
     setFilteredTransactions(filtered);
     calculateSummary(filtered);
+    prepareChartData(filtered);
   };
 
   const calculateSummary = (data) => {
@@ -88,9 +140,10 @@ export default function LaporanPenjualan() {
     let totalPendapatan = 0;
 
     data.forEach((transaction) => {
-      transaction.detail_transaksis.forEach((detail) => {
-        totalProdukTerjual += detail.jumlah;
-        totalPendapatan += parseFloat(detail.subtotal);
+      const details = transaction.detail_transaksis || [transaction];
+      details.forEach((detail) => {
+        totalProdukTerjual += detail.jumlah || 0;
+        totalPendapatan += parseFloat(detail.subtotal || 0);
       });
     });
 
@@ -174,6 +227,59 @@ export default function LaporanPenjualan() {
         </div>
       </div>
 
+      {/* Chart Penjualan Harian */}
+      <div className="bg-white p-6 rounded-lg shadow-md mb-6">
+        <h2 className="text-xl font-semibold mb-4">Grafik Penjualan Harian</h2>
+        <div className="h-80">
+          {chartData.length > 0 ? (
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart
+                data={chartData}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip
+                  formatter={(value, name) => {
+                    if (name === "totalPendapatan") {
+                      return [`Rp ${value.toLocaleString()}`, "Pendapatan"];
+                    }
+                    return [
+                      value,
+                      name === "totalPenjualan" ? "Penjualan" : name,
+                    ];
+                  }}
+                />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="totalPenjualan"
+                  name="Jumlah Penjualan"
+                  stroke="#8884d8"
+                  activeDot={{ r: 8 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="totalPendapatan"
+                  name="Total Pendapatan"
+                  stroke="#82ca9d"
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          ) : (
+            <div className="flex items-center justify-center h-full">
+              <p className="text-gray-500">Tidak ada data untuk ditampilkan</p>
+            </div>
+          )}
+        </div>
+      </div>
+
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h2 className="text-xl font-semibold mb-4">Detail Penjualan</h2>
         <div className="overflow-x-auto">
@@ -190,26 +296,36 @@ export default function LaporanPenjualan() {
             </thead>
             <tbody>
               {filteredTransactions.length > 0 ? (
-                filteredTransactions.flatMap((transaction) =>
-                  transaction.detail_transaksis.map((detail) => (
+                filteredTransactions.flatMap((transaction) => {
+                  const details = transaction.detail_transaksis || [
+                    transaction,
+                  ];
+                  return details.map((detail) => (
                     <tr key={`${transaction.id}-${detail.id}`}>
                       <td className="py-2 px-4 border-b">
-                        {new Date(transaction.tanggal).toLocaleDateString()}
-                      </td>
-                      <td className="py-2 px-4 border-b">#{transaction.id}</td>
-                      <td className="py-2 px-4 border-b">
-                        {detail.produk.nama_produk}
-                      </td>
-                      <td className="py-2 px-4 border-b">{detail.jumlah}</td>
-                      <td className="py-2 px-4 border-b">
-                        Rp {parseFloat(detail.harga_satuan).toLocaleString()}
+                        {new Date(
+                          transaction.tanggal || transaction.transaksi?.tanggal
+                        ).toLocaleDateString()}
                       </td>
                       <td className="py-2 px-4 border-b">
-                        Rp {parseFloat(detail.subtotal).toLocaleString()}
+                        #{transaction.id || transaction.transaksi_id}
+                      </td>
+                      <td className="py-2 px-4 border-b">
+                        {detail.produk?.nama_produk || "Produk"}
+                      </td>
+                      <td className="py-2 px-4 border-b">
+                        {detail.jumlah || 0}
+                      </td>
+                      <td className="py-2 px-4 border-b">
+                        Rp{" "}
+                        {parseFloat(detail.harga_satuan || 0).toLocaleString()}
+                      </td>
+                      <td className="py-2 px-4 border-b">
+                        Rp {parseFloat(detail.subtotal || 0).toLocaleString()}
                       </td>
                     </tr>
-                  ))
-                )
+                  ));
+                })
               ) : (
                 <tr>
                   <td colSpan="6" className="py-4 text-center">
