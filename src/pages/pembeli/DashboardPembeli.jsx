@@ -110,7 +110,7 @@ export default function DashboardPembeli() {
       {/* Hero Banner */}
       <div className="relative overflow-hidden bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="relative z-10 pb-8 bg-white ">
+          <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:w-full lg:pb-28 xl:pb-32">
             <div className="pt-6 px-4 sm:px-6 lg:px-8">
               <div className="relative">
                 {/* Main Banner Carousel */}
@@ -129,7 +129,7 @@ export default function DashboardPembeli() {
                           className="w-full h-full bg-cover bg-center flex items-center"
                           style={{ backgroundImage: `url(${banner})` }}
                         >
-                          <div className="px-10 py-6 bg-black bg-opacity-40 text-white max-w-md rounded-lg ms-20">
+                          <div className="px-10 py-6 bg-black bg-opacity-40 text-white max-w-md rounded-r-lg">
                             <h2 className="text-2xl font-bold mb-2">
                               Selamat Datang di Dashboard Pembeli
                             </h2>
@@ -138,7 +138,7 @@ export default function DashboardPembeli() {
                             </p>
                             <Link
                               to="/produk"
-                              className="inline-block px-6 py-2 bg-gradient-to-r from-green-500 to-green-600 rounded-lg text-white font-medium hover:from-green-600 hover:to-green-700 transition-all shadow-md"
+                              className="inline-block px-6 py-2 bg-gradient-to-r from-green-500 to-blue-600 rounded-lg text-white font-medium hover:from-green-600 hover:to-blue-700 transition-all shadow-md"
                             >
                               Belanja Sekarang
                             </Link>
@@ -151,10 +151,10 @@ export default function DashboardPembeli() {
                   {/* Navigation Arrows */}
                   <button
                     onClick={() => setBannerSlide("prev")}
-                    className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-opacity-80 hover:bg-opacity-100 rounded-full p-2 shadow-md transition-all"
+                    className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-2 shadow-md transition-all"
                   >
                     <svg
-                      className="w-5 h-5 text-gray-600 font-extrabold"
+                      className="w-5 h-5 text-gray-600"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -170,10 +170,10 @@ export default function DashboardPembeli() {
 
                   <button
                     onClick={() => setBannerSlide("next")}
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-opacity-80 hover:bg-opacity-100 rounded-full p-2 shadow-md transition-all"
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-2 shadow-md transition-all"
                   >
                     <svg
-                      className="w-5 h-5 text-gray-600 font-extrabold"
+                      className="w-5 h-5 text-gray-600"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
