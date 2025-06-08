@@ -56,159 +56,225 @@ export default function DaftarPesananPembeli() {
     }
   }, [statusFilter, transactions]);
 
-  const getStatusBadgeClass = (status) => {
+  const getStatusInfo = (status) => {
     switch (status?.toUpperCase()) {
       case "MENUNGGU":
-        return "bg-yellow-100 text-yellow-800";
+        return {
+          class: "bg-orange-50 text-orange-700 border-orange-200",
+          bgClass: "bg-orange-100",
+          text: "Menunggu Konfirmasi",
+          icon: "⏰",
+        };
       case "DIPROSES":
-        return "bg-blue-100 text-blue-800";
+        return {
+          class: "bg-blue-50 text-blue-700 border-blue-200",
+          bgClass: "bg-blue-100",
+          text: "Sedang Diproses",
+          icon: "🚛",
+        };
       case "SELESAI":
-        return "bg-green-100 text-green-800";
+        return {
+          class: "bg-green-50 text-green-700 border-green-200",
+          bgClass: "bg-green-100",
+          text: "Pesanan Selesai",
+          icon: "✅",
+        };
       case "DIBATALKAN":
-        return "bg-red-100 text-red-800";
+        return {
+          class: "bg-red-50 text-red-700 border-red-200",
+          bgClass: "bg-red-100",
+          text: "Dibatalkan",
+          icon: "❌",
+        };
       default:
-        return "bg-gray-100 text-gray-800";
+        return {
+          class: "bg-gray-50 text-gray-700 border-gray-200",
+          bgClass: "bg-gray-100",
+          text: status,
+          icon: "📦",
+        };
     }
   };
 
+  const filterButtons = [
+    { key: "SEMUA", label: "Semua", color: "emerald" },
+    { key: "MENUNGGU", label: "Menunggu", color: "orange" },
+    { key: "DIPROSES", label: "Diproses", color: "blue" },
+    { key: "SELESAI", label: "Selesai", color: "green" },
+    { key: "DIBATALKAN", label: "Dibatalkan", color: "red" },
+  ];
+
   if (loading) {
-    return <div className="text-center p-10">Loading...</div>;
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="flex flex-col items-center space-y-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-4 border-emerald-500 border-t-transparent"></div>
+          <p className="text-gray-600 font-medium">Memuat pesanan...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="container mx-auto p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-green-800">
-          Daftar Pesanan Saya
-        </h1>
-        <Link
-          to="/dashboard-pembeli"
-          className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
-        >
-          Kembali ke Dashboard
-        </Link>
-      </div>
-
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <div className="mb-6">
-          <h2 className="text-lg font-semibold mb-3">Filter Status</h2>
-          <div className="flex flex-wrap gap-2">
-            <button
-              onClick={() => setStatusFilter("SEMUA")}
-              className={`px-4 py-2 rounded-full ${
-                statusFilter === "SEMUA"
-                  ? "bg-green-600 text-white"
-                  : "bg-gray-200 text-gray-800"
-              }`}
-            >
-              Semua
-            </button>
-            <button
-              onClick={() => setStatusFilter("MENUNGGU")}
-              className={`px-4 py-2 rounded-full ${
-                statusFilter === "MENUNGGU"
-                  ? "bg-yellow-600 text-white"
-                  : "bg-yellow-100 text-yellow-800"
-              }`}
-            >
-              Menunggu
-            </button>
-            <button
-              onClick={() => setStatusFilter("DIPROSES")}
-              className={`px-4 py-2 rounded-full ${
-                statusFilter === "DIPROSES"
-                  ? "bg-blue-600 text-white"
-                  : "bg-blue-100 text-blue-800"
-              }`}
-            >
-              Diproses
-            </button>
-            <button
-              onClick={() => setStatusFilter("SELESAI")}
-              className={`px-4 py-2 rounded-full ${
-                statusFilter === "SELESAI"
-                  ? "bg-green-600 text-white"
-                  : "bg-green-100 text-green-800"
-              }`}
-            >
-              Selesai
-            </button>
-            <button
-              onClick={() => setStatusFilter("DIBATALKAN")}
-              className={`px-4 py-2 rounded-full ${
-                statusFilter === "DIBATALKAN"
-                  ? "bg-red-600 text-white"
-                  : "bg-red-100 text-red-800"
-              }`}
-            >
-              Dibatalkan
-            </button>
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Filter Tabs */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 mb-6">
+          <div className="p-6">
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+              Filter Status Pesanan
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              {filterButtons.map((filter) => (
+                <button
+                  key={filter.key}
+                  onClick={() => setStatusFilter(filter.key)}
+                  className={`px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 ${
+                    statusFilter === filter.key
+                      ? `bg-${filter.color}-600 text-white shadow-md transform scale-105`
+                      : `bg-${filter.color}-50 text-${filter.color}-700 hover:bg-${filter.color}-100 border border-${filter.color}-200`
+                  }`}
+                >
+                  {filter.label}
+                  {statusFilter === filter.key && (
+                    <span className="ml-2 bg-white bg-opacity-30 rounded-full px-2 py-0.5 text-xs">
+                      {filter.key === "SEMUA"
+                        ? transactions.length
+                        : filteredTransactions.length}
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="min-w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-green-100 text-green-900">
-                <th className="py-3 px-4 border-b">ID Transaksi</th>
-                <th className="py-3 px-4 border-b">Tanggal</th>
-                <th className="py-3 px-4 border-b">Total</th>
-                <th className="py-3 px-4 border-b">Status</th>
-                <th className="py-3 px-4 border-b">Alamat</th>
-                <th className="py-3 px-4 border-b">Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredTransactions.length === 0 ? (
-                <tr>
-                  <td colSpan="6" className="py-4 text-center">
-                    Tidak ada pesanan ditemukan
-                  </td>
-                </tr>
-              ) : (
-                filteredTransactions.map((transaction) => (
-                  <tr
-                    key={transaction.id}
-                    className="hover:bg-green-50 transition-colors"
-                  >
-                    <td className="py-3 px-4 border-b">
-                      {transaction.id.substring(0, 8)}
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      {new Date(transaction.tanggal).toLocaleDateString()}
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      Rp{" "}
-                      {Number(transaction.total_harga).toLocaleString("id-ID")}
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      <span
-                        className={`px-2 py-1 rounded-full text-xs ${getStatusBadgeClass(
-                          transaction.status
-                        )}`}
+        {/* Orders List */}
+        <div className="space-y-4">
+          {filteredTransactions.length === 0 ? (
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
+              <span className="text-6xl block mb-4">📦</span>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                Tidak ada pesanan ditemukan
+              </h3>
+              <p className="text-gray-500">
+                Pesanan dengan status "{statusFilter.toLowerCase()}" tidak
+                tersedia.
+              </p>
+            </div>
+          ) : (
+            filteredTransactions.map((transaction) => {
+              const statusInfo = getStatusInfo(transaction.status);
+
+              return (
+                <div
+                  key={transaction.id}
+                  className="bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-all duration-200 hover:border-emerald-300"
+                >
+                  <div className="p-6">
+                    {/* Order Header */}
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center space-x-3">
+                        <div
+                          className={`p-2 rounded-lg ${statusInfo.bgClass} text-xl`}
+                        >
+                          {statusInfo.icon}
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-gray-900">
+                            #{transaction.id.substring(0, 8)}
+                          </h3>
+                          <p className="text-sm text-gray-500">ID Transaksi</p>
+                        </div>
+                      </div>
+
+                      <div
+                        className={`inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium border ${statusInfo.class}`}
                       >
-                        {transaction.status}
-                      </span>
-                    </td>
-                    <td
-                      className="py-3 px-4 border-b truncate max-w-xs"
-                      title={transaction.alamat_pengiriman}
-                    >
-                      {transaction.alamat_pengiriman}
-                    </td>
-                    <td className="py-3 px-4 border-b">
+                        <span className="mr-1.5">{statusInfo.icon}</span>
+                        {statusInfo.text}
+                      </div>
+                    </div>
+
+                    {/* Order Details Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                      <div className="flex items-center space-x-3">
+                        <span className="text-xl">📅</span>
+                        <div>
+                          <p className="text-sm font-medium text-gray-900">
+                            {new Date(transaction.tanggal).toLocaleDateString(
+                              "id-ID",
+                              {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              }
+                            )}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            Tanggal Pesanan
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center space-x-3">
+                        <span className="text-xl">💰</span>
+                        <div>
+                          <p className="text-sm font-bold text-emerald-600">
+                            Rp{" "}
+                            {Number(transaction.total_harga).toLocaleString(
+                              "id-ID"
+                            )}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            Total Pembayaran
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <span className="text-xl mt-0.5">📍</span>
+                        <div className="min-w-0">
+                          <p
+                            className="text-sm font-medium text-gray-900 truncate"
+                            title={transaction.alamat_pengiriman}
+                          >
+                            {transaction.alamat_pengiriman}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            Alamat Pengiriman
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Action Button */}
+                    <div className="flex justify-end pt-4 border-t border-gray-100">
                       <Link
                         to={`/detail-pesanan-pembeli/${transaction.id}`}
-                        className="text-blue-500 hover:underline"
+                        className="inline-flex items-center px-4 py-2 bg-emerald-600 text-white text-sm font-medium rounded-lg hover:bg-emerald-700 transition-colors focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
                       >
-                        Detail
+                        Lihat Detail
+                        <svg
+                          className="ml-2 h-4 w-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
                       </Link>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
     </div>
