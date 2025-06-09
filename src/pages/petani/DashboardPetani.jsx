@@ -283,7 +283,10 @@ export default function DashboardPetani() {
               <span className="text-sm font-medium text-gray-900">Laporan</span>
             </Link>
 
-            <div className="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:border-gray-300 hover:bg-gray-50 transition-all duration-200">
+            <Link
+              to="/profile"
+              className="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:border-gray-300 hover:bg-gray-50 transition-all duration-200"
+            >
               <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-3">
                 <svg
                   className="w-6 h-6 text-gray-600"
@@ -308,7 +311,7 @@ export default function DashboardPetani() {
               <span className="text-sm font-medium text-gray-900">
                 Pengaturan
               </span>
-            </div>
+            </Link>
           </div>
         </div>
 
