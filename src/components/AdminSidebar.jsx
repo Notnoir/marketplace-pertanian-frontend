@@ -59,7 +59,7 @@ export default function AdminSidebar() {
           </div>
         </div>
 
-        <div className="relative z-10 bg-white/20 rounded-lg p-3 backdrop-blur-sm">
+        <div className="relative z-10 bg-white/ 20 rounded-lg p-3 backdrop-blur-sm">
           <div className="flex items-center">
             <div className="bg-white p-1.5 rounded-full mr-3">
               <FaSeedling className="text-green-600 text-sm" />
