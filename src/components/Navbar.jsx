@@ -114,7 +114,7 @@ export default function Navbar() {
                 <FaLeaf className="text-white text-xl" />
               </div>
               <Link to="/" className="text-green-600">
-                AgriConnect
+                AgriMarket
               </Link>
             </div>
 
@@ -161,7 +161,7 @@ export default function Navbar() {
                   </Link>
                   <Link
                     to="/login"
-                    className={`${menuClass} bg-gradient-to-r from-green-500 to-blue-600 text-white hover:from-green-600 hover:to-blue-700 hover:text-white shadow-md hover:shadow-lg`}
+                    className={`${menuClass} bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700 hover:text-white shadow-md hover:shadow-lg`}
                   >
                     <FaSignInAlt className="text-lg" />
                     <span>Login</span>

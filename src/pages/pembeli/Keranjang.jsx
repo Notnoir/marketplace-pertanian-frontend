@@ -223,10 +223,30 @@ export default function Keranjang() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b">
+      <div className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <h1 className="text-2xl font-bold text-gray-900">Keranjang</h1>
+          <div className="flex items-center space-x-5 h-16">
+            <Link
+              to="/dashboard-pembeli"
+              className="flex items-center text-gray-600 hover:text-green-600 transition-colors duration-200"
+            >
+              <svg
+                className="w-5 h-5 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+              Kembali
+            </Link>
+            <div className="h-6 w-px bg-gray-300"></div>
+            <h1 className="text-xl font-bold text-gray-900 ">Keranjang</h1>
             <div className="text-sm text-gray-500">{cart.length} produk</div>
           </div>
         </div>
@@ -268,7 +288,7 @@ export default function Keranjang() {
             {/* Cart Items */}
             <div className="flex-1">
               <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-                <div className="p-4 border-b bg-gray-50">
+                <div className="p-4 border-b border-gray-200 bg-gray-50">
                   <h2 className="font-semibold text-gray-900">
                     Produk Pilihan
                   </h2>

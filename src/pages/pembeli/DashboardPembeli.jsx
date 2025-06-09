@@ -129,7 +129,7 @@ export default function DashboardPembeli() {
                           className="w-full h-full bg-cover bg-center flex items-center"
                           style={{ backgroundImage: `url(${banner})` }}
                         >
-                          <div className="px-10 py-6 bg-black bg-opacity-40 text-white max-w-md rounded-r-lg">
+                          <div className="px-10 py-6 bg-black bg-opacity-40 text-white max-w-md rounded-lg ms-20">
                             <h2 className="text-2xl font-bold mb-2">
                               Selamat Datang di Dashboard Pembeli
                             </h2>
@@ -138,7 +138,7 @@ export default function DashboardPembeli() {
                             </p>
                             <Link
                               to="/produk"
-                              className="inline-block px-6 py-2 bg-gradient-to-r from-green-500 to-blue-600 rounded-lg text-white font-medium hover:from-green-600 hover:to-blue-700 transition-all shadow-md"
+                              className="inline-block px-6 py-2 bg-gradient-to-r from-green-500 to-green-600 rounded-lg text-white font-medium hover:from-green-600 hover:to-green-700 transition-all shadow-md"
                             >
                               Belanja Sekarang
                             </Link>

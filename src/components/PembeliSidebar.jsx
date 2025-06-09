@@ -92,7 +92,10 @@ export default function PembeliSidebar() {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             {/* Logo */}
-            <Link to="/" className="flex-shrink-0 flex items-center">
+            <Link
+              to="/dashboard-pembeli"
+              className="flex-shrink-0 flex items-center"
+            >
               <div className="bg-gradient-to-r from-green-500 to-green-600 p-2 rounded-lg shadow-lg">
                 <FaLeaf className="text-white text-xl" />
               </div>
