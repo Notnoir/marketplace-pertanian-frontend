@@ -55,18 +55,22 @@ export default function AdminTransactions() {
 
       <div className="container mx-auto px-6 py-8">
         <div className="flex flex-wrap gap-4 mb-8">
-          <Link to="/dashboard-admin" className="px-4 py-2 bg-green-600 text-white rounded shadow hover:bg-green-700">Dashboard</Link>
-          <Link to="/admin/users" className="px-4 py-2 bg-green-600 text-white rounded shadow hover:bg-green-700">Kelola Pengguna</Link>
-          <Link to="/admin/products" className="px-4 py-2 bg-green-600 text-white rounded shadow hover:bg-green-700">Kelola Produk</Link>
-          <Link to="/admin/transactions" className="px-4 py-2 bg-green-700 text-white rounded shadow">Kelola Transaksi</Link>
+          <Link to="/dashboard-admin" className="px-4 py-2 bg-green-600 text-white rounded shadow hover:bg-green-700">
+            Dashboard
+          </Link>
+          <Link to="/admin/users" className="px-4 py-2 bg-green-600 text-white rounded shadow hover:bg-green-700">
+            Kelola Pengguna
+          </Link>
+          <Link to="/admin/products" className="px-4 py-2 bg-green-600 text-white rounded shadow hover:bg-green-700">
+            Kelola Produk
+          </Link>
+          <Link to="/admin/transactions" className="px-4 py-2 bg-green-700 text-white rounded shadow">
+            Kelola Transaksi
+          </Link>
         </div>
 
         <div className="flex justify-between items-center mb-6">
-          <select
-            className="px-4 py-2 border rounded shadow-sm focus:ring-2 focus:ring-green-400 focus:outline-none"
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-          >
+          <select className="px-4 py-2 border rounded shadow-sm focus:ring-2 focus:ring-green-400 focus:outline-none" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
             <option value="all">Semua Status</option>
             <option value="MENUNGGU">Menunggu</option>
             <option value="DIPROSES">Diproses</option>
@@ -95,27 +99,25 @@ export default function AdminTransactions() {
                   <td className="py-2 px-4 border-t whitespace-nowrap text-sm text-gray-700">{new Date(transaction.tanggal).toLocaleDateString()}</td>
                   <td className="py-2 px-4 border-t whitespace-nowrap text-sm text-gray-700">Rp {transaction.total_harga}</td>
                   <td className="py-2 px-4 border-t whitespace-nowrap text-sm text-gray-700">
-                    <span className={`px-3 py-1 rounded-full text-xs font-semibold inline-block ${
-                      transaction.status === "SELESAI" ? "bg-green-100 text-green-700" :
-                      transaction.status === "DIBATALKAN" ? "bg-red-100 text-red-700" :
-                      transaction.status === "DIPROSES" ? "bg-blue-100 text-blue-700" :
-                      "bg-yellow-100 text-yellow-700"
-                    }`}>
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-semibold inline-block ${
+                        transaction.status === "SELESAI"
+                          ? "bg-green-100 text-green-700"
+                          : transaction.status === "DIBATALKAN"
+                          ? "bg-red-100 text-red-700"
+                          : transaction.status === "DIPROSES"
+                          ? "bg-blue-100 text-blue-700"
+                          : "bg-yellow-100 text-yellow-700"
+                      }`}
+                    >
                       {transaction.status}
                     </span>
                   </td>
                   <td className="py-2 px-4 border-t whitespace-nowrap text-sm text-gray-700">
-                    <button
-                      className="text-green-600 hover:underline mr-2"
-                      onClick={() => navigate(`/transaksi/${transaction.id}`)}
-                    >
+                    <button className="text-green-600 hover:underline mr-2" onClick={() => navigate(`/transaksi/${transaction.id}`)}>
                       Detail
                     </button>
-                    <select
-                      className="border rounded px-2 py-1 text-sm focus:ring-2 focus:ring-green-400"
-                      value={transaction.status}
-                      onChange={(e) => handleUpdateTransactionStatus(transaction.id, e.target.value)}
-                    >
+                    <select className="border rounded px-2 py-1 text-sm focus:ring-2 focus:ring-green-400" value={transaction.status} onChange={(e) => handleUpdateTransactionStatus(transaction.id, e.target.value)}>
                       <option value="MENUNGGU">Menunggu</option>
                       <option value="DIPROSES">Diproses</option>
                       <option value="SELESAI">Selesai</option>
