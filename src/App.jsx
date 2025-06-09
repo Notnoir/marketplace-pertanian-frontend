@@ -32,6 +32,8 @@ import DaftarPesananPembeli from "./pages/pembeli/DaftarPesananPembeli";
 import DetailPesananPembeli from "./pages/pembeli/DetailPesananPembeli";
 import Chat from "./pages/Chat";
 import ProfilePembeli from "./pages/pembeli/ProfilePembeli";
+import AdminProductDetail from "./pages/admin/AdminProductDetail";
+import AdminTransactionDetail from "./pages/admin/AdminTransactionDetail";
 
 // Komponen wrapper untuk mendeteksi rute dan menampilkan layout yang sesuai
 function AppLayout() {
@@ -65,6 +67,8 @@ function AppLayout() {
       "/dashboard-admin",
       "/admin/users",
       "/admin/products",
+      "/admin/produk",
+      "/admin/transaksi",
       "/admin/transactions",
       "/chat", // Tambahkan rute chat untuk admin
     ];
@@ -164,6 +168,11 @@ function AppLayout() {
           <Route path="/chat" element={<Chat />} />
           {/* Tambahkan route untuk Profile Pembeli */}
           <Route path="/profile" element={<ProfilePembeli />} />
+          <Route path="/admin/produk/:id" element={<AdminProductDetail />} />
+          <Route
+            path="/admin/transaksi/:id"
+            element={<AdminTransactionDetail />}
+          />
         </Routes>
       </div>
     </>

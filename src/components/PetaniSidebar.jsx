@@ -53,7 +53,7 @@ export default function PetaniSidebar() {
             <FaLeaf className="text-green-600 text-2xl" />
           </div>
           <div>
-            <h2 className="text-xl font-bold text-white">AgriConnect</h2>
+            <h2 className="text-xl font-bold text-white">AgriMarket</h2>
             <p className="text-xs text-green-100">Petani Panel</p>
           </div>
         </div>
