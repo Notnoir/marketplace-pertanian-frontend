@@ -62,7 +62,7 @@ export default function DaftarPesanan() {
     setProcessingId(transaction.transaksi.id);
     try {
       // Update status transaksi menjadi DIPROSES
-      await API.put(`/transaksi/${transaction.transaksi.id}/status`, {
+      await API.put(`/transaksi/update-status/${transaction.transaksi.id}`, {
         status: "DIPROSES",
       });
 

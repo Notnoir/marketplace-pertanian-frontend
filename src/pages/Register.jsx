@@ -31,7 +31,7 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-100 to-green-300 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
       <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full">
         <h2 className="text-3xl font-extrabold text-green-800 mb-6 text-center">
           Buat Akun Baru
@@ -101,7 +101,10 @@ export default function Register() {
         </form>
         <p className="mt-6 text-center text-green-700">
           Sudah punya akun?{" "}
-          <a href="/login" className="underline hover:text-green-900 font-semibold">
+          <a
+            href="/login"
+            className="underline hover:text-green-900 font-semibold"
+          >
             Masuk di sini
           </a>
         </p>

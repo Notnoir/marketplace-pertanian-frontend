@@ -124,13 +124,13 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-100 to-green-300 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
       <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full relative">
         <div className="flex justify-center mb-6">
           <FaLeaf className="text-green-600 text-5xl" />
         </div>
         <h2 className="text-3xl font-extrabold text-green-800 mb-6 text-center">
-          Selamat Datang di AgriConnect
+          Selamat Datang di AgriMarket
         </h2>
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
