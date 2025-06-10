@@ -149,8 +149,7 @@ export default function PembeliSidebar() {
                 3
               </span>
             </Link>
-
-            <Link to="/chat" className={menuClass}>
+            <Link to="/chat" className={`${menuClass} relative`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -163,56 +162,11 @@ export default function PembeliSidebar() {
                   clipRule="evenodd"
                 />
               </svg>
-              <span>Chat</span>
+              <span>Keranjang</span>
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center animate-pulse">
+                2
+              </span>
             </Link>
-
-            {/* Notifications */}
-            <div className="relative">
-              <button
-                onClick={() => setShowNotifications(!showNotifications)}
-                className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 relative"
-              >
-                <FaBell className="text-lg" />
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center animate-pulse">
-                  2
-                </span>
-              </button>
-
-              {/* Notifications Dropdown */}
-              {showNotifications && (
-                <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
-                  <div className="px-4 py-3 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-green-50">
-                    <h3 className="text-sm font-semibold text-gray-900 flex items-center">
-                      <FaBell className="mr-2 text-blue-500" />
-                      Notifikasi
-                    </h3>
-                  </div>
-                  <div className="max-h-64 overflow-y-auto">
-                    <div className="px-4 py-3 hover:bg-blue-50 cursor-pointer border-l-4 border-transparent hover:border-blue-400 transition-all duration-200">
-                      <p className="text-sm text-gray-800 font-medium">
-                        Pesanan baru diterima
-                      </p>
-                      <p className="text-xs text-gray-500 mt-1">
-                        2 menit yang lalu
-                      </p>
-                    </div>
-                    <div className="px-4 py-3 hover:bg-green-50 cursor-pointer border-l-4 border-transparent hover:border-green-400 transition-all duration-200">
-                      <p className="text-sm text-gray-800 font-medium">
-                        Produk Anda telah disetujui
-                      </p>
-                      <p className="text-xs text-gray-500 mt-1">
-                        1 jam yang lalu
-                      </p>
-                    </div>
-                  </div>
-                  <div className="px-4 py-3 border-t border-gray-200 bg-gray-50">
-                    <button className="text-sm text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200">
-                      Lihat semua notifikasi →
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
 
             {/* User Profile Dropdown */}
             {user && (

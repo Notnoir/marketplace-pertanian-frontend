@@ -36,7 +36,11 @@ export default function DashboardPembeli() {
   ];
 
   // Banner slides
-  const banners = ["/banner1.jpg", "/banner2.jpg", "/banner3.jpg"];
+  const banners = [
+    "https://marketplace.canva.com/EAGhzRtZBg0/1/0/1600w/canva-buah-tropis-indonesia%3A-keanekaragaman-dan-keunikan-eH8SrkKlTtQ.jpg",
+    "https://png.pngtree.com/template/20220330/ourmid/pngtree-fresh-fruit-and-vegetable-mall-banner-image_909172.jpg",
+    "https://png.pngtree.com/template/20211025/ourmid/pngtree-summer-fruit-event-orange-simple-e-commerce-full-screen-banner-image_654141.jpg",
+  ];
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -115,7 +119,7 @@ export default function DashboardPembeli() {
               <div className="relative">
                 {/* Main Banner Carousel */}
                 <div
-                  className="relative overflow-hidden rounded-xl shadow-lg h-64 md:h-80 border-amber-400 border-2"
+                  className="relative overflow-hidden rounded-xl shadow-lg h-64 md:h-80"
                   onMouseEnter={() => setIsBannerHovered(true)}
                   onMouseLeave={() => setIsBannerHovered(false)}
                 >
@@ -126,10 +130,14 @@ export default function DashboardPembeli() {
                     {banners.map((banner, index) => (
                       <div key={index} className="w-full flex-shrink-0 h-full">
                         <div
-                          className="w-full h-full bg-cover bg-center flex items-center"
+                          className="relative w-full h-full bg-cover bg-center flex items-center"
                           style={{ backgroundImage: `url(${banner})` }}
                         >
-                          <div className="px-10 py-6 bg-black bg-opacity-40 text-white max-w-md rounded-lg ms-20">
+                          {/* Black overlay */}
+                          <div className="absolute inset-0 bg-black/50"></div>
+
+                          {/* Content */}
+                          <div className="relative px-10 py-6 text-white max-w-full rounded-lg ms-20">
                             <h2 className="text-2xl font-bold mb-2">
                               Selamat Datang di Dashboard Pembeli
                             </h2>
