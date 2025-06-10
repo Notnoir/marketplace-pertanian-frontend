@@ -21,7 +21,35 @@ export default function AdminTransactions() {
     try {
       setLoading(true);
       const response = await API.get("/transaksi");
-      setTransactions(response.data);
+
+      // Ambil data transaksi
+      const transactionsData = response.data;
+
+      // Ambil data user untuk setiap transaksi
+      const transactionsWithUser = await Promise.all(
+        transactionsData.map(async (transaction) => {
+          if (transaction.user_id) {
+            try {
+              const userResponse = await API.get(
+                `/users/${transaction.user_id}`
+              );
+              return {
+                ...transaction,
+                user: userResponse.data,
+              };
+            } catch (error) {
+              console.error(
+                `Error fetching user for transaction ${transaction.id}:`,
+                error
+              );
+              return transaction;
+            }
+          }
+          return transaction;
+        })
+      );
+
+      setTransactions(transactionsWithUser);
     } catch (error) {
       console.error("Error fetching transactions:", error);
     } finally {
@@ -31,7 +59,7 @@ export default function AdminTransactions() {
 
   const handleUpdateTransactionStatus = async (id, status) => {
     try {
-      await API.patch(`/transaksi/${id}/status`, { status });
+      await API.put(`/transaksi/update-status/${id}`, { status });
       fetchTransactions();
       alert("Status transaksi berhasil diperbarui");
     } catch (error) {

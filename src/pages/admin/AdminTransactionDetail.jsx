@@ -42,6 +42,10 @@ export default function AdminTransactionDetail() {
         setBuyer(buyerResponse.data);
       }
 
+      // Ambil detail transaksi (produk yang dibeli)
+      const detailResponse = await API.get(`/detail-transaksi/transaksi/${id}`);
+      setDetails(detailResponse.data);
+
       setLoading(false);
     } catch (error) {
       console.error("Error fetching transaction details:", error);
@@ -52,9 +56,11 @@ export default function AdminTransactionDetail() {
   const handleUpdateStatus = async (status) => {
     try {
       await API.put(`/transaksi/${id}/status`, { status });
+      alert(`Status transaksi berhasil diubah menjadi ${status}`);
       fetchTransactionDetails(); // Refresh data after update
     } catch (error) {
       console.error("Error updating transaction status:", error);
+      alert("Gagal memperbarui status transaksi");
     }
   };
 
