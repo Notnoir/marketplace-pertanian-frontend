@@ -134,55 +134,6 @@ export default function AdminUsers() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">A</span>
-              </div>
-              <h1 className="text-xl font-semibold text-gray-900">
-                Admin Panel
-              </h1>
-            </div>
-            <div className="text-sm text-gray-500">Kelola Pengguna</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Navigation Tabs */}
-      <div className="bg-white border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex space-x-8">
-            <Link
-              to="/dashboard-admin"
-              className="py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 font-medium text-sm transition-colors"
-            >
-              Dashboard
-            </Link>
-            <Link
-              to="/admin/users"
-              className="py-4 px-1 border-b-2 border-green-500 text-green-600 font-medium text-sm"
-            >
-              Pengguna
-            </Link>
-            <Link
-              to="/admin/products"
-              className="py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 font-medium text-sm transition-colors"
-            >
-              Produk
-            </Link>
-            <Link
-              to="/admin/transactions"
-              className="py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 font-medium text-sm transition-colors"
-            >
-              Transaksi
-            </Link>
-          </nav>
-        </div>
-      </div>
-
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Page Title & Controls */}
@@ -220,7 +171,7 @@ export default function AdminUsers() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white overflow-hidden shadow-sm rounded-lg border">
+          <div className="bg-white overflow-hidden shadow-sm rounded-lg">
             <div className="p-5">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
@@ -254,7 +205,7 @@ export default function AdminUsers() {
             </div>
           </div>
 
-          <div className="bg-white overflow-hidden shadow-sm rounded-lg border">
+          <div className="bg-white overflow-hidden shadow-sm rounded-lg">
             <div className="p-5">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
@@ -288,7 +239,7 @@ export default function AdminUsers() {
             </div>
           </div>
 
-          <div className="bg-white overflow-hidden shadow-sm rounded-lg border">
+          <div className="bg-white overflow-hidden shadow-sm rounded-lg">
             <div className="p-5">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
@@ -322,7 +273,7 @@ export default function AdminUsers() {
             </div>
           </div>
 
-          <div className="bg-white overflow-hidden shadow-sm rounded-lg border">
+          <div className="bg-white overflow-hidden shadow-sm rounded-lg">
             <div className="p-5">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
@@ -398,7 +349,7 @@ export default function AdminUsers() {
         </div>
 
         {/* Users Table */}
-        <div className="bg-white shadow-sm rounded-lg border overflow-hidden">
+        <div className="bg-white shadow-sm rounded-lg overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200">
             <h3 className="text-lg font-medium text-gray-900">
               Daftar Pengguna
