@@ -96,8 +96,14 @@ export default function Login() {
 
     try {
       const res = await API.post("/users/login", form);
+
+      // Simpan token JWT dan data user
+      localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
+
+      // Trigger event untuk update state di komponen lain
       window.dispatchEvent(new Event("storage-event"));
+
       alert("Login berhasil: " + res.data.user.nama);
 
       const { role } = res.data.user;

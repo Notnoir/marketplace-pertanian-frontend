@@ -32,9 +32,10 @@ export default function PetaniSidebar() {
   };
 
   const handleLogout = () => {
+    localStorage.removeItem("token");
     localStorage.removeItem("user");
-    setUser(null);
-    navigate("/");
+    window.dispatchEvent(new Event("storage-event"));
+    navigate("/login");
   };
 
   if (!user || user.role !== "PETANI") {

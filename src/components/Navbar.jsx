@@ -51,10 +51,10 @@ export default function Navbar() {
   }, []);
 
   const handleLogout = () => {
+    localStorage.removeItem("token");
     localStorage.removeItem("user");
-    setUser(null);
-    navigate("/");
-    setShowUserDropdown(false);
+    window.dispatchEvent(new Event("storage-event"));
+    navigate("/login");
   };
 
   const handleSearch = (e) => {

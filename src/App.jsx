@@ -34,6 +34,7 @@ import Chat from "./pages/Chat";
 import ProfilePembeli from "./pages/pembeli/ProfilePembeli";
 import AdminProductDetail from "./pages/admin/AdminProductDetail";
 import AdminTransactionDetail from "./pages/admin/AdminTransactionDetail";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 // Komponen wrapper untuk mendeteksi rute dan menampilkan layout yang sesuai
 function AppLayout() {
@@ -138,41 +139,177 @@ function AppLayout() {
           <Route path="/produk" element={<ProdukList />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/tambah-produk" element={<TambahProduk />} />
-          <Route path="/dashboard-admin" element={<DashboardAdmin />} />
-          <Route path="/dashboard-petani" element={<DashboardPetani />} />
-          <Route path="/dashboard-pembeli" element={<DashboardPembeli />} />
-          {/* Rute baru untuk halaman admin terpisah */}
-          <Route path="/admin/users" element={<AdminUsers />} />
-          <Route path="/admin/products" element={<AdminProducts />} />
-          <Route path="/admin/transactions" element={<AdminTransactions />} />
-          <Route path="/edit-produk/:id" element={<EditProduk />} />
-          <Route path="/pesanan/:id" element={<DetailPesanan />} />
-          <Route path="/daftar-pesanan" element={<DaftarPesanan />} />
-          <Route path="/laporan-penjualan" element={<LaporanPenjualan />} />
-          <Route path="/daftar-produk" element={<DaftarProduk />} />
-          {/* Rute baru untuk fitur pembeli */}
-          <Route path="/produk/:id" element={<DetailProduk />} />
-          <Route path="/keranjang" element={<Keranjang />} />
-          <Route path="/detail-transaksi/:id" element={<DetailTransaksi />} />
-          {/* Rute baru untuk daftar pesanan dan detail pesanan pembeli */}
+
+          {/* Rute yang dilindungi untuk Petani */}
+          <Route
+            path="/tambah-produk"
+            element={
+              <ProtectedRoute allowedRoles={["PETANI"]}>
+                <TambahProduk />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard-petani"
+            element={
+              <ProtectedRoute allowedRoles={["PETANI"]}>
+                <DashboardPetani />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/edit-produk/:id"
+            element={
+              <ProtectedRoute allowedRoles={["PETANI"]}>
+                <EditProduk />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/pesanan/:id"
+            element={
+              <ProtectedRoute allowedRoles={["PETANI"]}>
+                <DetailPesanan />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/daftar-pesanan"
+            element={
+              <ProtectedRoute allowedRoles={["PETANI"]}>
+                <DaftarPesanan />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/laporan-penjualan"
+            element={
+              <ProtectedRoute allowedRoles={["PETANI"]}>
+                <LaporanPenjualan />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/daftar-produk"
+            element={
+              <ProtectedRoute allowedRoles={["PETANI"]}>
+                <DaftarProduk />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Rute yang dilindungi untuk Admin */}
+          <Route
+            path="/dashboard-admin"
+            element={
+              <ProtectedRoute allowedRoles={["ADMIN"]}>
+                <DashboardAdmin />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/users"
+            element={
+              <ProtectedRoute allowedRoles={["ADMIN"]}>
+                <AdminUsers />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/products"
+            element={
+              <ProtectedRoute allowedRoles={["ADMIN"]}>
+                <AdminProducts />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/transactions"
+            element={
+              <ProtectedRoute allowedRoles={["ADMIN"]}>
+                <AdminTransactions />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/produk/:id"
+            element={
+              <ProtectedRoute allowedRoles={["ADMIN"]}>
+                <AdminProductDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/transaksi/:id"
+            element={
+              <ProtectedRoute allowedRoles={["ADMIN"]}>
+                <AdminTransactionDetail />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Rute yang dilindungi untuk Pembeli */}
+          <Route
+            path="/dashboard-pembeli"
+            element={
+              <ProtectedRoute allowedRoles={["PEMBELI"]}>
+                <DashboardPembeli />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/keranjang"
+            element={
+              <ProtectedRoute allowedRoles={["PEMBELI"]}>
+                <Keranjang />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/detail-transaksi/:id"
+            element={
+              <ProtectedRoute allowedRoles={["PEMBELI"]}>
+                <DetailTransaksi />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/daftar-pesanan-pembeli"
-            element={<DaftarPesananPembeli />}
+            element={
+              <ProtectedRoute allowedRoles={["PEMBELI"]}>
+                <DaftarPesananPembeli />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/detail-pesanan-pembeli/:id"
-            element={<DetailPesananPembeli />}
+            element={
+              <ProtectedRoute allowedRoles={["PEMBELI"]}>
+                <DetailPesananPembeli />
+              </ProtectedRoute>
+            }
           />
-          {/* Tambahkan route untuk Chat di sini */}
-          <Route path="/chat" element={<Chat />} />
-          {/* Tambahkan route untuk Profile Pembeli */}
-          <Route path="/profile" element={<ProfilePembeli />} />
-          <Route path="/admin/produk/:id" element={<AdminProductDetail />} />
           <Route
-            path="/admin/transaksi/:id"
-            element={<AdminTransactionDetail />}
+            path="/profile"
+            element={
+              <ProtectedRoute allowedRoles={["PEMBELI"]}>
+                <ProfilePembeli />
+              </ProtectedRoute>
+            }
           />
+
+          {/* Rute yang dilindungi untuk semua user yang login */}
+          <Route
+            path="/chat"
+            element={
+              <ProtectedRoute allowedRoles={["ADMIN", "PETANI", "PEMBELI"]}>
+                <Chat />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Rute publik untuk detail produk */}
+          <Route path="/produk/:id" element={<DetailProduk />} />
         </Routes>
       </div>
     </>
@@ -186,5 +323,3 @@ export default function App() {
     </Router>
   );
 }
-
-// Hapus kode route yang berada di luar komponen

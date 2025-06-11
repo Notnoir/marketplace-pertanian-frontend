@@ -45,9 +45,10 @@ export default function PembeliSidebar() {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
     localStorage.removeItem("token");
-    window.location.href = "/";
+    localStorage.removeItem("user");
+    window.dispatchEvent(new Event("storage-event"));
+    navigate("/login");
   };
 
   const handleSearch = (e) => {
