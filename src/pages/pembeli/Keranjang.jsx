@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../../services/api";
+import { useToast } from "../../components/CustomToast";
 import { CheckCircle, XCircle, AlertTriangle, X } from "lucide-react";
 
 // Custom Alert Component
@@ -72,37 +73,44 @@ export default function Keranjang() {
   });
   const [paymentError, setPaymentError] = useState("");
   const navigate = useNavigate();
-
-  // State untuk custom alert
-  const [customAlert, setCustomAlert] = useState({
-    isVisible: false,
-    type: "warning",
-    message: "",
-  });
+  const toast = useToast();
 
   // Override alert function
   const alert = (message) => {
     let type = "warning";
     if (message.includes("berhasil")) {
       type = "success";
+      toast.show({
+        message: message,
+        type: "success",
+        duration: 3000,
+        position: "top-center",
+      });
     } else if (
       message.includes("gagal") ||
       message.includes("Terjadi kesalahan") ||
       message.includes("kosong")
     ) {
       type = "error";
+      toast.show({
+        message: message,
+        type: "error",
+        duration: 3000,
+        position: "top-center",
+      });
+    } else {
+      toast.show({
+        message: message,
+        type: "warning",
+        duration: 3000,
+        position: "top-center",
+      });
     }
-
-    setCustomAlert({
-      isVisible: true,
-      type: type,
-      message: message,
-    });
   };
 
-  const closeCustomAlert = () => {
-    setCustomAlert((prev) => ({ ...prev, isVisible: false }));
-  };
+  // const closeCustomAlert = () => {
+  //   setCustomAlert((prev) => ({ ...prev, isVisible: false }));
+  // };
 
   // Opsi jenis pembayaran
   const jenisePembayaranOptions = [
@@ -312,12 +320,12 @@ export default function Keranjang() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Custom Alert */}
-      <CustomAlert
+      {/* <CustomAlert
         type={customAlert.type}
         message={customAlert.message}
         onClose={closeCustomAlert}
         isVisible={customAlert.isVisible}
-      />
+      /> */}
 
       {/* Header */}
       <div className="bg-white shadow-sm">

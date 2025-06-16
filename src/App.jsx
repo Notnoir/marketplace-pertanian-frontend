@@ -35,6 +35,7 @@ import ProfilePembeli from "./pages/pembeli/ProfilePembeli";
 import AdminProductDetail from "./pages/admin/AdminProductDetail";
 import AdminTransactionDetail from "./pages/admin/AdminTransactionDetail";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { ToastContainer } from "./components/CustomToast";
 
 // Komponen wrapper untuk mendeteksi rute dan menampilkan layout yang sesuai
 function AppLayout() {
@@ -320,6 +321,7 @@ export default function App() {
   return (
     <Router>
       <AppLayout />
+      <ToastContainer />
     </Router>
   );
 }

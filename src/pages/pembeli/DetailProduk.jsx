@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import API from "../../services/api";
+import { useToast } from "../../components/CustomToast";
 
 export default function DetailProduk() {
   const { id } = useParams();
@@ -10,6 +11,7 @@ export default function DetailProduk() {
   const [user, setUser] = useState(null);
   const [petani, setPetani] = useState(null);
   const navigate = useNavigate();
+  const toast = useToast();
 
   useEffect(() => {
     // Cek apakah user sudah login
@@ -34,15 +36,24 @@ export default function DetailProduk() {
 
   const handleAddToCart = () => {
     if (!user) {
-      alert(
-        "Silakan login terlebih dahulu untuk menambahkan produk ke keranjang"
-      );
+      toast.show({
+        message:
+          "Silakan login terlebih dahulu untuk menambahkan produk ke keranjang",
+        type: "warning",
+        duration: 3000,
+        position: "top-center",
+      });
       navigate("/login");
       return;
     }
 
     if (user.role !== "PEMBELI") {
-      alert("Hanya pembeli yang dapat menambahkan produk ke keranjang");
+      toast.show({
+        message: "Hanya pembeli yang dapat menambahkan produk ke keranjang",
+        type: "warning",
+        duration: 3000,
+        position: "top-center",
+      });
       return;
     }
 
@@ -73,19 +84,35 @@ export default function DetailProduk() {
 
     // Simpan kembali ke localStorage
     localStorage.setItem("cart", JSON.stringify(cart));
-    alert("Produk berhasil ditambahkan ke keranjang");
+
+    toast.show({
+      message: `${produk.nama_produk} berhasil ditambahkan ke keranjang`,
+      type: "success",
+      duration: 3000,
+      position: "top-right",
+    });
   };
 
   // Fungsi untuk mengarahkan ke halaman chat dengan petani
   const handleChatPetani = () => {
     if (!user) {
-      alert("Silakan login terlebih dahulu untuk chat dengan petani");
+      toast.show({
+        message: "Silakan login terlebih dahulu untuk chat dengan petani",
+        type: "warning",
+        duration: 3000,
+        position: "top-center",
+      });
       navigate("/login");
       return;
     }
 
     if (user.role !== "PEMBELI") {
-      alert("Hanya pembeli yang dapat chat dengan petani");
+      toast.show({
+        message: "Hanya pembeli yang dapat chat dengan petani",
+        type: "warning",
+        duration: 3000,
+        position: "top-center",
+      });
       return;
     }
 
