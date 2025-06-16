@@ -1,6 +1,64 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../../services/api";
+import { CheckCircle, XCircle, AlertTriangle, X } from "lucide-react";
+
+// Custom Alert Component
+const CustomAlert = ({ type, message, onClose, isVisible }) => {
+  if (!isVisible) return null;
+
+  const alertConfig = {
+    success: {
+      bg: "bg-green-50",
+      border: "border-green-200",
+      text: "text-green-800",
+      icon: <CheckCircle className="w-5 h-5 text-green-600" />,
+    },
+    error: {
+      bg: "bg-red-50",
+      border: "border-red-200",
+      text: "text-red-800",
+      icon: <XCircle className="w-5 h-5 text-red-600" />,
+    },
+    warning: {
+      bg: "bg-yellow-50",
+      border: "border-yellow-200",
+      text: "text-yellow-800",
+      icon: <AlertTriangle className="w-5 h-5 text-yellow-600" />,
+    },
+  };
+
+  const config = alertConfig[type] || alertConfig.warning;
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
+      <div
+        className={`${config.bg} ${config.border} border rounded-lg p-4 max-w-sm w-full shadow-lg`}
+      >
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            {config.icon}
+            <p className={`ml-3 text-sm ${config.text}`}>{message}</p>
+          </div>
+          <button
+            onClick={onClose}
+            className={`ml-4 ${config.text} hover:opacity-70`}
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+        <div className="mt-4 flex justify-end">
+          <button
+            onClick={onClose}
+            className="px-3 py-1 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50"
+          >
+            OK
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default function Keranjang() {
   const [cart, setCart] = useState([]);
@@ -14,6 +72,37 @@ export default function Keranjang() {
   });
   const [paymentError, setPaymentError] = useState("");
   const navigate = useNavigate();
+
+  // State untuk custom alert
+  const [customAlert, setCustomAlert] = useState({
+    isVisible: false,
+    type: "warning",
+    message: "",
+  });
+
+  // Override alert function
+  const alert = (message) => {
+    let type = "warning";
+    if (message.includes("berhasil")) {
+      type = "success";
+    } else if (
+      message.includes("gagal") ||
+      message.includes("Terjadi kesalahan") ||
+      message.includes("kosong")
+    ) {
+      type = "error";
+    }
+
+    setCustomAlert({
+      isVisible: true,
+      type: type,
+      message: message,
+    });
+  };
+
+  const closeCustomAlert = () => {
+    setCustomAlert((prev) => ({ ...prev, isVisible: false }));
+  };
 
   // Opsi jenis pembayaran
   const jenisePembayaranOptions = [
@@ -222,6 +311,14 @@ export default function Keranjang() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Custom Alert */}
+      <CustomAlert
+        type={customAlert.type}
+        message={customAlert.message}
+        onClose={closeCustomAlert}
+        isVisible={customAlert.isVisible}
+      />
+
       {/* Header */}
       <div className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
