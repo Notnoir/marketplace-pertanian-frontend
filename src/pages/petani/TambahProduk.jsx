@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import API from "../../services/api";
+import { useToast } from "../../components/CustomToast";
 
 export default function TambahProduk() {
   const [form, setForm] = useState({
@@ -11,6 +12,7 @@ export default function TambahProduk() {
     foto_url: "",
   });
   const [userId, setUserId] = useState(null);
+  const toast = useToast();
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -27,7 +29,12 @@ export default function TambahProduk() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!userId) {
-      alert("Silakan login terlebih dahulu!");
+      toast.show({
+        message: "Silakan login terlebih dahulu!",
+        type: "error",
+        duration: 3000,
+        position: "top-center",
+      });
       return;
     }
     try {
@@ -39,7 +46,12 @@ export default function TambahProduk() {
       };
 
       await API.post("/produk", payload);
-      alert("Produk berhasil ditambahkan!");
+      toast.show({
+        message: "Produk berhasil ditambahkan!",
+        type: "success",
+        duration: 3000,
+        position: "top-center",
+      });
       setForm({
         nama_produk: "",
         deskripsi: "",
@@ -49,10 +61,14 @@ export default function TambahProduk() {
         foto_url: "",
       });
     } catch (error) {
-      alert(
-        "Gagal tambah produk: " +
-          (error.response?.data?.message || error.message)
-      );
+      toast.show({
+        message:
+          "Gagal tambah produk: " +
+          (error.response?.data?.message || error.message),
+        type: "error",
+        duration: 5000,
+        position: "top-center",
+      });
     }
   };
 
