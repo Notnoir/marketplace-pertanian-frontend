@@ -108,9 +108,9 @@ export default function Keranjang() {
     }
   };
 
-  const closeCustomAlert = () => {
-    setCustomAlert((prev) => ({ ...prev, isVisible: false }));
-  };
+  // const closeCustomAlert = () => {
+  //   setCustomAlert((prev) => ({ ...prev, isVisible: false }));
+  // };
 
   // Opsi jenis pembayaran
   const jenisePembayaranOptions = [
@@ -320,12 +320,12 @@ export default function Keranjang() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Custom Alert */}
-      <CustomAlert
+      {/* <CustomAlert
         type={customAlert.type}
         message={customAlert.message}
         onClose={closeCustomAlert}
         isVisible={customAlert.isVisible}
-      />
+      /> */}
 
       {/* Header */}
       <div className="bg-white shadow-sm">
